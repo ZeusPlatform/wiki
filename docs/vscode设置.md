@@ -9,3 +9,12 @@ to workaround the problem i added this in vscode settings.json
     }
 
 参考链接: https://github.com/editorconfig/editorconfig-vscode/issues/153
+
+## wsl watch
+```
+"files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/*/**": true
+  }
+```
