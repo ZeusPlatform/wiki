@@ -18,6 +18,7 @@
 
 ## css动画 animation
 `animation: slidein 3s ease-in 1s infinite reverse both running;`
+名字 时间 函数 延迟（延时） 次数 方向 保持 状态  === 时间函数 的名字 叫做延迟 次数和方向保持不变
 其中 `keyframes-name`可以前置也可以后置
 ```
 <single-animation>#
@@ -42,3 +43,82 @@ where
 
 ```
 
+## justify-cotent: space-evenly 不兼容问题
+
+
+## rotateY 以Y轴中心旋转
+## rotateX 以X轴中心旋转
+例子：
+
+
+
+## background 属性
+```
+[ <bg-layer> , ]* <final-bg-layer>
+where 
+<bg-layer> = <bg-image> || <bg-position> [ / <bg-size> ]? || <repeat-style> || <attachment> || <box> || <box>
+<final-bg-layer> = <'background-color'> || <bg-image> || <bg-position> [ / <bg-size> ]? || <repeat-style> || <attachment> || <box> || <box>
+
+```
+图像 位置/大小 重复 滚动/固定 位置盒子 裁剪盒子 what where how 图片的位置和大小，都给我滚蛋
+
+
+## CSS transition 和 animation
+```
+img{
+    height:15px;
+    width:15px;
+}
+
+img:hover{
+    height: 450px;
+    width: 450px;
+}
+
+img{
+    transition: 1s;
+}
+```
+transition 的作用在于，指定状态变化所需要的时间。
+
+```
+where 
+<single-transition> = [ none | <single-transition-property> ] || <time> || <timing-function> || <time>
+```
+属性 时间 函数 时间 署时寒时
+
+局限：
+（1）transition需要事件触发，所以没法在网页加载时自动发生。
+
+（2）transition是一次性的，不能重复发生，除非一再触发。 对比次数
+
+（3）transition只能定义开始状态和结束状态，不能定义中间状态，也就是说只有两个状态。
+
+（4）一条transition规则，只能定义一个属性的变化，不能涉及多个属性。
+
+## 使用transition 使二级菜单延迟消失， 从而能能够hover上去
+
+## visibility 和 display：none相互冲突 ，是的transition出现bug
+
+## box-sizing: border-box 、 border 设置border的时候会造成内容的移位
+
+## css animation 造成字体显示模糊
+
+## 滚动条
+::-webkit-scrollbar 滚动条整体部分，可以设置宽度啥的
+::-webkit-scrollbar-button 滚动条两端的按钮
+::-webkit-scrollbar-track 外层轨道
+::-webkit-scrollbar-track-piece 内层滚动槽
+::-webkit-scrollbar-thumb 滚动的滑块
+::-webkit-scrollbar-corner 边角
+::-webkit-resizer 定义右下角拖动块的样式
+
+
+## 选择同名第几个dom
+```
+  &:nth-of-type(1) {
+    padding-top: 1.1rem;
+  }
+```
+
+## 2倍图需要特殊设置background-size为一倍的大小

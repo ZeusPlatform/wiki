@@ -1,3 +1,22 @@
+## 搜索
+docker search mysql
+
+## 下载
+docker pull mysql:5.6
+
+## 创建并启动
+docker run -d -p:3306:3306 -e MYSQL_ROOT_PASSWORD=1 --name mysql mysql
+
+## 映射 主机:容器
+docker run --rm -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=1 --name mysql -v ~/mysql:/var/lib/mysql mysql
+
+## 查看容器
+docker ps mysql
+
+## 进入容器
+docker exec -it mysql /bin/bash
+
+
 docker pull mysql
 
 docker container rm mysql
@@ -24,3 +43,7 @@ Enter password:
 ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '{your password}';
 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '{your password}';
 SELECT plugin FROM mysql.user WHERE User = 'root';
+
+
+## 删除容器
+`docker container prune`

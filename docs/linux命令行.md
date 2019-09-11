@@ -1,4 +1,12 @@
 ## 获取帮助
+### 简要说明
+```
+$whatis command
+正则匹配:
+$whatis -w "loca*"
+详细：
+$info command
+```
 ### help command
 适用于内部命令
 ```
@@ -13,7 +21,13 @@ help cd
 ls -h
 ls --help
 ```
+### 查看所在路径
+```
+$which command
 
+$whereis command
+
+```
 ### man Command
 manual 手册，是分章节；man # Command （#表示章节号）
 
@@ -37,3 +51,18 @@ read (4), write (2), and execute
 (1)
 
 `chmod -R 755 ./dist`
+
+
+## kill端口进程
+1. 查看该端口的占用情况 
+`lsof -i:端口号 `
+2. 关闭进程 
+`kill PID`
+
+### grep 
+ print lines matching a pattern
+参考： man grep
+
+## 创建文件
+mkdir
+-p, --parents     no error if existing, make parent directories as needed
