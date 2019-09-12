@@ -14,3 +14,9 @@ git add -h
 ## tag
 ### 删除tag
 `git tag -d <tag-naem>`
+
+## 修改已commit的版本
+`git add <file-name | .>`
+`git commit --amend --no-edit`
+每个commit内容显示在一行
+git log --oneline
