@@ -1,5 +1,11 @@
 参考： https://zhuanlan.zhihu.com/p/36801617
 
+## 清除屏幕
+linux
+clear ctrl+l
+win
+cls
+
 ## 查看系统版本
 lsb_release -a
 
