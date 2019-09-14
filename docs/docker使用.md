@@ -13,7 +13,7 @@ docker run --rm -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=1 --name mysql -v ~/mysql
 ## 查看容器
 docker ps mysql
 
-## 进入容器
+## 进入容器  这里也可以直接使用 sh
 docker exec -it mysql /bin/bash
 
 
