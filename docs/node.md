@@ -65,3 +65,55 @@ Object.defineProperty(Object.prototype, '__CLASS__', {
 Object.keys({});           // []
 console.log([].__CLASS__); // "[object Array]"
 ```
+
+## node核心模块
+### [http](https://nodejs.org/dist/latest-v12.x/docs/api/http.html)
+To use the HTTP server and client one must require('http').
+ The interface is careful to never buffer entire requests or responses — the user is able to stream data.
+
+```javascript
+var server = http.createServer([options][, requestlistener]) // 传入一个输入和输出
+server.listen()
+
+
+```
+### fs
+The fs module provides an API for interacting with the file system in a manner closely modeled around standard POSIX（（计算机）简便操作系统） functions.
+
+```
+fs.existsSync()
+fs.mkdirSync()
+```
+
+### os
+```
+os.tmpdir()
+```
+### path
+```
+path.join
+
+```正斜杠(/)和反斜杠(\)的区别
+正斜杠，符号是"/"; 反斜杠，符号是"\"。
+
+正斜杠/表示除法，分割。
+
+在unix系统中，正斜杠/表示目录。由于web遵循unix命名，所以在网址(URL)中，/表示目录。
+
+在windows系统中，正斜杠/通常用来分割命令行参数，用\表示目录。
+
+windows本地路径用\，如C:\windows\system32。
+
+网络一般用/，如http://www.xxx.com/
+
+UNIX操作系统设计了这种路径分割法，它使用斜杠: /。由于网络是首先应用在UNIX计算机之间的，至今为止，一半以上的网络服务器仍是使用UNIX操作系统的，所以网址也沿用了斜杠作路径分隔符。
+
+微软在开发DOS2.0的时候，从UNIX中借鉴了这种目录结构，但由于DOS中，斜杠已经用了作为命令行参数的标志了(UNIX中用的是"-"符)，所以只得使用反斜杠：\。
+
+由此也可以看出windows或者说DOS在设计初期考虑不够周全，为了和UNIX一些特征区别开来，将UNIX中的正斜杠/分割符路径方式改成了反斜杠\。这样改变导致的一个问题是在早期DOS命令中，正常的文件是不能包含空格的，如果包含了空格，会导致输入这样的文件名时，命令解析无法将其和参数区分开。例如，想要进入"hutaow yuan"这个目录，直接输入"cd hutaow yuan"，命令行将会将其解析为进入"hutaow"目录，而后面的"yuan"做参数，这显然不是所期望的。
+参考： https://blog.csdn.net/xiaodanjava/article/details/32131151
+
+使用
+```
+path.posix.basename('/tmp/myfile.html');
+```
