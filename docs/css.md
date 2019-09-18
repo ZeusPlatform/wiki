@@ -121,4 +121,17 @@ where
   }
 ```
 
-## 2倍图需要特殊设置background-size为一倍的大小
+## 2倍图需要特殊设置background-size为一倍的大小 或者使用zoom属性强行缩放
+
+## flex布局和text-overflow: ellipsis;
+父元素使用flex水平布局，子元素中设置为flex为1的元素需要实现文字过长的省略号的时候，flex为1的元素可能会挤压其他元素
+这个时候设置父元素
+.content {
+    flex: 1;
+    width: 0;
+}
+或者
+.content {
+    flex: 1;
+    overflow: hidden；
+}

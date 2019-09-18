@@ -324,3 +324,15 @@ module.exports = webpackconfig
 完成了上述修改后，以后无论是在项目中添加页面还是删除页面，都无需再对 webpack配置进行手动修改了，虽然开始时开起来似乎这种动态的自动配置代码比较多，而且稍微复杂一点，但是从长期来看，绝对是一劳永逸的好做法。
 
 另外，如果你的项目目录结构和我示例的目录结构不一样，那么就需要你根据自己的目录结构对代码进行少许的修改，但整体解决问题的方法是不变的，一个易于维护的项目，目录结构都该是有律可循的。
+
+## webpack-dev-server监听0.0.0.0
+
+  devServer: {
+    hot: true,
+    watchOptions: {
+      poll: true
+    },
+    host: '0.0.0.0',
+    port: 8080,
+    contentBase: path.join(__dirname, 'test'),
+  },
