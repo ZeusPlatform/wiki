@@ -20,3 +20,8 @@ git add -h
 `git commit --amend --no-edit`
 每个commit内容显示在一行
 git log --oneline
+
+## 之前是使用https clone下来的项目改成ssh
+修改 ./git 目录下的 config文件
+cd .git && vim config
+修改其中url 为 git@XXXX
