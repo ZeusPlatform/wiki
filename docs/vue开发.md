@@ -12,3 +12,7 @@
 4. 这个组件对于输入和输出的反应（数据输入和事件输入）
 
 ## 自定义的指令，不支持语句包装成函数
+
+## 滚动到顶部
+this.$refs['svrContent'].scrollTop = 0
+this.$refs['svrContent'].scroll(0,0)
