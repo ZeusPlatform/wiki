@@ -66,3 +66,7 @@ read (4), write (2), and execute
 ## 创建文件
 mkdir
 -p, --parents     no error if existing, make parent directories as needed
+
+
+## 用户别名
+在etc/passwd 配置

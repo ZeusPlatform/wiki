@@ -101,6 +101,7 @@ where
 ## visibility 和 display：none相互冲突 ，是的transition出现bug
 
 ## box-sizing: border-box 、 border 设置border的时候会造成内容的移位
+这个时候可以使用 outline 替代
 
 ## css animation 造成字体显示模糊
 
@@ -135,3 +136,12 @@ where
     flex: 1;
     overflow: hidden；
 }
+
+## ul 和 li
+{
+  margin: 0;
+  padding: 0; // 注意这里并不会把 list-style 去除掉
+}
+
+### [list-style](https://developer.mozilla.org/en-US/docs/Web/CSS/list-style)
+list-style: georgian outside url('/non-existent.svg'); // type postion image
