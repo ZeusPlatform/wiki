@@ -25,3 +25,6 @@ git log --oneline
 修改 ./git 目录下的 config文件
 cd .git && vim config
 修改其中url 为 git@XXXX
+
+使用命令行 
+git remote set-url origin git@github.com:AccountName/Project-name.git

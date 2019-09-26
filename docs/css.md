@@ -145,3 +145,6 @@ where
 
 ### [list-style](https://developer.mozilla.org/en-US/docs/Web/CSS/list-style)
 list-style: georgian outside url('/non-existent.svg'); // type postion image
+
+### 下划线
+text-decoration

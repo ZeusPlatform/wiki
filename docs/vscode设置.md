@@ -18,3 +18,20 @@ to workaround the problem i added this in vscode settings.json
     "**/node_modules/*/**": true
   }
 ```
+
+## live-sass
+  "liveSassCompile.settings":{
+    "formats":[
+        {
+            "format": "compressed",
+            "extensionName": ".css",
+        },
+    ],
+    "includeItems":[
+      "/workspace/sl-m-ssl.xunlei.com/v2/page/activity_list2_v2/css/acticity_list2.scss"
+    ],
+    "autoprefix": [
+      "> 1%",
+      "last 2 versions"
+    ]
+  }
