@@ -148,3 +148,11 @@ list-style: georgian outside url('/non-existent.svg'); // type postion image
 
 ### 下划线
 text-decoration
+
+## 使用absolute margin居中
+需要设置元素的宽高， 和 left right top bottom 为0
+.element {
+    width: 600px; height: 400px;
+    position: absolute; left: 0; top: 0; right: 0; bottom: 0;
+    margin: auto;    /* 有了这个就自动居中了 */
+}
