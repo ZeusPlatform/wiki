@@ -156,3 +156,8 @@ text-decoration
     position: absolute; left: 0; top: 0; right: 0; bottom: 0;
     margin: auto;    /* 有了这个就自动居中了 */
 }
+
+## [裁剪 clip-path](https://developer.mozilla.org/en-US/docs/Web/CSS/clip-path)
+The clip-path CSS property creates a clipping region that sets what part of an element should be shown. Parts that are inside the region are shown, while those outside are hidden.
+创建一个裁剪区域，区域内展示，区域外的隐藏
+circle 半径计算 [`sqrt(width^2+height^2)/sqrt(2)`](https://developer.mozilla.org/en-US/docs/Web/CSS/basic-shape)
