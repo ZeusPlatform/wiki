@@ -1,3 +1,5 @@
+一种编程语言是否易用，很大程度上，取决于开发命令行程序的能力。
+
 ## 阿里镜像使用
 npm install  --registry=https://registry.npm.taobao.org
 
@@ -96,7 +98,8 @@ os.tmpdir()
 ```
 path.join
 
-```正斜杠(/)和反斜杠(\)的区别
+```
+正斜杠(/)和反斜杠(\)的区别
 正斜杠，符号是"/"; 反斜杠，符号是"\"。
 
 正斜杠/表示除法，分割。
@@ -120,3 +123,6 @@ UNIX操作系统设计了这种路径分割法，它使用斜杠: /。由于网�
 ```
 path.posix.basename('/tmp/myfile.html');
 ```
+
+
+## child_process
