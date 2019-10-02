@@ -35,3 +35,11 @@ to workaround the problem i added this in vscode settings.json
       "last 2 versions"
     ]
   }
+
+## vscode禁用eslint检查node_modules
+  "eslint.options": {
+    "ignorePattern": ["*/node_modules/*"," */build/*","*/dist/*"]
+  },
+
+  支持的参数参考：
+  https://eslint.org/docs/developer-guide/nodejs-api#cliengine 
