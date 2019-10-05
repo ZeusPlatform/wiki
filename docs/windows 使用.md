@@ -76,3 +76,18 @@ Read more: Difference Between MSI and EXE | Difference Between http://www.differ
 
 Read more: Difference Between MSI and EXE | Difference Between http://www.differencebetween.net/technology/software-technology/difference-between-msi-and-exe/#ixzz60omhChL1
 http://www.differencebetween.net/technology/software-technology/difference-between-msi-and-exe/
+
+## Windows wim操作
+### 查看
+dism /get-wiminfo /wimfile:< path >
+### 挂载
+dism /mount-image /imagefile:< path > /index:1 /mountdir:< path >
+
+### 查询可升级的版本
+dism /image:< path > /get-targeteditions
+
+### 升级版本
+dism /Image:< path > /Set-Edition:< 版本名称 >
+
+### commit镜像
+dism /unmount-wim /mountdir:< path > /commit
