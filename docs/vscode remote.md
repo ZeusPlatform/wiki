@@ -42,3 +42,11 @@ dockerfile 能力的问题
 
 ## ssh原理和使用
 
+
+
+## windows上的坑
+* 偶尔的不稳定，终端显示异常，需要重新打开终端
+* docker-compose -port指定的端口无法建立连接，使用 
+   netstat -ano | findstr 80 //列出进程极其占用的端口，且包含 80
+   taskkill -PID <进程号> -F //强制关闭某个进程
+* 内存占用较大

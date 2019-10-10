@@ -91,3 +91,11 @@ dism /Image:< path > /Set-Edition:< 版本名称 >
 
 ### commit镜像
 dism /unmount-wim /mountdir:< path > /commit
+
+
+## 杀死占用某端口的进程
+netstat -ano | findstr 80 //列出进程极其占用的端口，且包含 80
+
+tasklist | findstr 2000 找到进程名称，任务管理器杀死
+
+taskkill -PID <进程号> -F //强制关闭某个进程

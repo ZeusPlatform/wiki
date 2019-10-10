@@ -22,3 +22,9 @@
 * error
 * nuxtState client
 * beforeNuxtRender(fn) Function
+
+
+## plugins
+如果在plugin进行了异步操作，并且其他组件强依赖该操作的状态，可以在返回一个Promise
+
+## asyncDate fetch 中准确判断 href 不要使用 location.href, 建议使用 route
