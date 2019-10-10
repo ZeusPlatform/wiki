@@ -1,3 +1,12 @@
+## 国内镜像
+https://dockerhub.azk8s.cn
+https://reg-mirror.qiniu.com
+
+执行 $ docker info，如果从结果中看到了如下内容，说明配置成功。
+
+Registry Mirrors:
+ https://dockerhub.azk8s.cn/
+
 ## 搜索
 docker search mysql
 
