@@ -28,3 +28,8 @@
 如果在plugin进行了异步操作，并且其他组件强依赖该操作的状态，可以在返回一个Promise
 
 ## asyncDate fetch 中准确判断 href 不要使用 location.href, 建议使用 route
+
+
+## 自定义 error 页面
+1. Add a layouts/error.vue file
+2. Customize it
