@@ -43,3 +43,8 @@ to workaround the problem i added this in vscode settings.json
 
   支持的参数参考：
   https://eslint.org/docs/developer-guide/nodejs-api#cliengine 
+
+## vue 文件自动提示 行内 css
+编辑`file.association`，在`setting.json`中
+`"files.associations": {"*vue": "html"}`
+
