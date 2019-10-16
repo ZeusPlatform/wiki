@@ -99,3 +99,12 @@ netstat -ano | findstr 80 //列出进程极其占用的端口，且包含 80
 tasklist | findstr 2000 找到进程名称，任务管理器杀死
 
 taskkill -PID <进程号> -F //强制关闭某个进程
+
+
+## 查看环境变量
+ps
+1. Get-ChildItem Env:
+2. dir env:
+
+cmd
+1. set
