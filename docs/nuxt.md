@@ -40,3 +40,5 @@ error
 1. Add a layouts/error.vue file
 2. Customize it
 
+
+## nuxt vuex 单页面开发，切换页面的时候注意，数据的重置
