@@ -82,6 +82,8 @@ WSL体系结构
 这使得VS Code可以提供本地质量的开发体验 -包括完整的IntelliSense（完成功能），代码导航和调试- 不管代码托管在何处。
 ![](https://code.visualstudio.com/assets/docs/remote/wsl/architecture-wsl.png)
 
+
+
 ## 背景
 一致的开发环境
 
@@ -99,6 +101,8 @@ WSL体系结构
 3. 性能问题
 
 ## vscode + wsl
+### 查看linux系统监听数额
+cat /proc/sys/fs/inotify/max_user_watches
 
 ### [安装windows预览版](https://www.microsoft.com/en-us/software-download/windowsinsiderpreviewadvanced)
 > 直接加入windows预览版计划升级fast ring ，然后升级到预览版可能会使得一些软件不能正常使用

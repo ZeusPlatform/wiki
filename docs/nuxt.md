@@ -23,6 +23,12 @@
 * nuxtState client
 * beforeNuxtRender(fn) Function
 
+redirect
+浏览器路由会变化，类似vue的Vue.$router.push('error')
+
+error
+跳转layout/error.vue，浏览器路由不会变化
+
 
 ## plugins
 如果在plugin进行了异步操作，并且其他组件强依赖该操作的状态，可以在返回一个Promise
@@ -33,3 +39,4 @@
 ## 自定义 error 页面
 1. Add a layouts/error.vue file
 2. Customize it
+
