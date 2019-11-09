@@ -22,3 +22,8 @@ https.createServer({
   console.log('Example app listening on port 3000! Go to https://localhost:3000/')
 })
 ```
+
+## 全站https
+1. 搜索`http://`，依赖的接口改成`https://`
+2. 搜索`.js'|"`,保证依赖的`js`文件支持`https`
+3. 接口返回的资源链接支持`https`
