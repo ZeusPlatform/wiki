@@ -126,7 +126,7 @@ There is also a much better way to compile and link programs than having to type
 Compiling a C++ program is a three-step process: pre-processing, compilation, and linking.
 The pre-processor handles pre-processor directives such as #include, compiling converts source code files into machine code, stored in object files, and linking links object files and external libraries to produce an executable or library file.
 ## References
-https://en.wikipedia.org/wiki/C%2B%2B
-https://stackoverflow.com/questions/6264249/how-does-the-compilation-linking-process-work
-http://faculty.cs.niu.edu/~mcmahon/CS241/Notes/compile.html
-https://www.learncpp.com/cpp-tutorial/introduction-to-the-compiler-linker-and-libraries/
+* https://en.wikipedia.org/wiki/C%2B%2B
+* https://stackoverflow.com/questions/6264249/how-does-the-compilation-linking-process-work
+* http://faculty.cs.niu.edu/~mcmahon/CS241/Notes/compile.html
+* https://www.learncpp.com/cpp-tutorial/introduction-to-the-compiler-linker-and-libraries/
