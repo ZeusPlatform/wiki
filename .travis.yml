@@ -1,6 +1,6 @@
 language: python # Set the build language to Python
 
-cache: pip
+# cache: pip
 
 python: 3.6 # Set the version of Python to use
 
