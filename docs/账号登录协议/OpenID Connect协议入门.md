@@ -19,7 +19,7 @@ OpenID Connect允许开发者验证跨网站和应用的用户，而无需拥有
 > OAuth > OpenID
 
 * 从权限上来说OAuth > OpenID
-
+![20191115221926.png](https://raw.githubusercontent.com/jiangbo0216/wiki/pic-bed/20191115221926.png) 
 
 
 OpenID Connect是“认证”和“授权”的结合，因为其基于OAuth协议，所以OpenID-Connect协议中也包含了client_id、client_secret还有redirect_uri等字段标识。这些信息被保存在“身份认证服务器”，以确保特定的客户端收到的信息只来自于合法的应用平台。这样做是目的是为了防止client_id泄露而造成的恶意网站发起的OIDC流程。
