@@ -65,3 +65,66 @@ git rm -rf .
 这个时候时无法查看到分支的
 
 在commit 一次之后即可 使用 git branch -a 查看到分支
+
+## git merge & rebase
+```sh
+$ git checkout feature
+$ git merge master
+
+# (or)
+
+$ git merge master feature
+```
+
+### merge
+Incorporates changes from the named commits (since the time their histories diverged from the current branch) into the current branch. This command is used by git pull to incorporate changes from another repository and can be used by hand to merge changes from one branch into another.
+从给定的commit合并到当前的分支，合并的是给定commit的与当前分支分叉后两条历史记录产生的所有commits。这条命令在git pull 的时候也会被使用
+
+
+## pull
+Fetch from and integrate with another repository or a local branch
+相当于 fetch & merge
+
+Merge into the current branch the remote branch next:
+
+$ git pull origin next
+等同于
+This leaves a copy of next temporarily in FETCH_HEAD, but does not update any remote-tracking branches. Using remote-tracking branches, the same can be done by invoking fetch and merge:
+
+$ git fetch origin
+$ git merge origin/next
+
+
+## fetch
+git-fetch - Download objects and refs from another repository
+
+
+## git internals
+### .git目录结构
+```
+$ ls -F1
+COMMIT_EDITMSG
+config     
+description
+FETCH_HEAD 
+HEAD       
+hooks/     
+index      
+info/      
+logs/
+objects/
+ORIG_HEAD
+packed-refs
+refs/
+```
+一个初始化的 .git 目录
+```
+$ ls -F1
+config
+description
+HEAD
+hooks/
+info/
+objects/
+refs/
+```

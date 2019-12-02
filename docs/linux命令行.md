@@ -70,3 +70,7 @@ mkdir
 
 ## 用户别名
 在etc/passwd 配置
+
+## 删除指定文件夹外的文件
+rm -rf !(keep) #删除keep文件之外的所有文件
+rm -rf !(keep1 | keep2) #删除keep1和keep2文件之外的所有文件
