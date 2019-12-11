@@ -49,3 +49,17 @@ server {
 这样如果是http，就会跳转到https， 比如访问xxx.com或者www.xxx.com 都会重定向到https://www.xxx.com
 
 ## nginx 配置
+### server_name 的匹配顺序
+1. 准确的server_name
+2. 以 * 通配符开始的字符串
+3. 以 * 通配符结束的字符串
+4. 匹配正则表达式
+
+### loc
+
+
+### [nginx 正则表达式](http://nginx.org/en/docs/http/server_names.html#regex_names)
+The regular expressions used by nginx are compatible with those used by the Perl programming language (PCRE). To use a regular expression, the server name must start with the tilde character:
+```
+server_name  ~^www\d+\.example\.net$;
+```
