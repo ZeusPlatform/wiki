@@ -18,7 +18,14 @@ Android	192.79 *	142.53
 6. html文档引用js和css资源对于加载时间的影响
 7. RTT (Round Trip Time往返时间)
 
-这篇文章主旨在1和2两点
+首先需要知道
+[onPageStarted](https://developer.android.com/reference/android/webkit/WebViewClient#onPageStarted(android.webkit.WebView,%20java.lang.String,%20android.graphics.Bitmap))
+
+Notify the host application that a page has finished loading. This method is called only for main frame. Receiving an onPageFinished() callback does not guarantee that the next frame drawn by WebView will reflect the state of the DOM at this point. In order to be notified that the current DOM state is ready to be rendered, request a visual state callback with WebView#postVisualStateCallback and wait for the supplied callback to be triggered.
+
+[onPageFinished](https://developer.android.com/reference/android/webkit/WebViewClient#onPageFinished(android.webkit.WebView,%20java.lang.String))
+
+Notify the host application that a page has started loading. This method is called once for each main frame load so a page with iframes or framesets will call onPageStarted one time for the main frame. This also means that onPageStarted will not be called when the contents of an embedded frame changes, i.e. clicking a link whose target is an iframe, it will also not be called for fragment navigations (navigations to #fragment_id).
 
 下面展开我们的讨论
 
@@ -40,6 +47,7 @@ Android	192.79 *	142.53
 3. onPageFinished的时间大致发生在前端 window.performance.timing.domLoading 的时间点，误差30ms左右
 
 ## 实验过程
+机型： 小米8 (6 + 128)
 这里默认读者懂得git，会配置java的开发环境，省略android studio的安装过程，接下我们把实验代码拉下来
 ```sh
 git clone https://github.com/jiangbo0216/Deva.git
@@ -84,7 +92,7 @@ unloadEventStart: 0
 2019-12-20 11:24:09.844 13400-13400/com.india.deva D/Test onPageFinished: 1576812249844  
 2019-12-20 11:24:12.024 13400-13400/com.india.deva D/Test onPageFinished: 1576812252024  
 
-通过数据对比我们可以得出结论
+通过数据对比我们可以得出结论（结论没有统计不同的webview的写法，样本数量过少仅供参考）
 客户端初始化webview完成的时间 对应于 navigationStart fetchStart 这两个前端时间
 客户端时间 onPageStarted 对应于 responseStart responseEnd domLoading 这三个前端时间
 客户端第一个onPageFinished 对应于 domInteractive domContentLoadedEventStart domContentLoadedEventEnd 这三个前端时间
@@ -239,6 +247,8 @@ HTTP1.1之后keep-alive（持久连接）被默认启用，除非在响应中指
 4. 之后 HTTP 发请求又 1 个 RTT
 假设你的 ping 是 25ms，6 个 RTT 就是 150ms。总和 550ms，延时占总和的 27.27%(150 / 550)。这绝对不是个小数字，可以有很大的优化空间。
 
+> 上面说的TCP连接是1个RTT， 我感觉像是1.5RTT😄
+
 ### 常用设置
 1. 开启：http 1.1中默认启用Keep-Alive，目前大部分浏览器都是用http1.1协议，也就是说默认都会发起Keep-Alive的连接请求。
 
@@ -254,4 +264,40 @@ max是最多的连接次数，若超过这个次数就强制断开连接
 
 > 这里我的理解和chrome的机制一样
 
-## 浏览器dns缓存时间
+## [浏览器dns缓存时间](https://www.zhihu.com/question/302677878/answer/539583327)
+这个没什么好讲的啦
+>知乎上的答案： chrome://net-internals/#dns 已经不管用了
+
+在 DNS 查询服务过程中，为了提高查询的效率引入了缓存机制，在本地计算机中，DNS缓存分两种，一种是浏览器缓存，一种是操作系统缓存。浏览器DNS缓存：浏览器的DNS缓存与DNS服务器返回的 TTL 值无关，浏览器在获取网站域名的实际IP后会对其IP进行缓存，至于缓存的时间，浏览器不直接与DNS服务器通信，而是与系统解析器通信，因此TTL与此无关，缓存过期时间，视具体的浏览器而定。    对于 Chrome：在浏览器中输入chrome://net-internals/#dns可查看DNS缓存有关的信息 ，在这个页面通过clear host cache可以清除 Chrome 缓存的信息。    对于 Firefox：在浏览器中输入about:config有一系列条目的设置项，与 DNS 缓存相关的是network.dnsCacheExpiration 和  network.dnsCacheExpirationGracePeriod ， 在63.0.3版本中，默认值是60和60，缓存时间即60s，对于network.dnsCacheEntries缓存条目，默认400条 操作系统DNS缓存：
+Windows：此电脑右键->管理->服务和应用程序->服务->DNS Client，可以从DNS Client描述中了解具体的信息：DNS客户端服务（dnscache）缓存域名系统（DNS）名称并注册该计算机的完整计算机名。
+如果该服务被停止，将继续解析DNS名称。然而，将不继续缓存DNS名称的查询结果，且不注册计算机名。
+
+如果该服务被禁用，则任何明确依赖于它的服务都将无法启动另外，通过 ipconfig/displaydns可以查看系统帮我们缓存的记录，而对于ipconfig/flushdns可以清楚缓存的记录。    Linux： 在Linux（可能是大多数Unix）上，除非安装并运行nscd，否则没有操作系统级别的DNS缓存。具体可查看How to read the local DNS cache contents?
+
+
+## html文档引用js和css资源对于加载时间的影响
+
+## RTT时间
+RTT(Round-Trip Time): 往返时延，在计算机网络中它也是一个重要的性能指标，它表示从发送端发送数据开始，到发送端收到来自接收端的确认（接收端收到数据后便立即发送确认），总共经历的时延;
+PING baidu.com (220.181.38.148) 56(84) bytes of data.
+64 bytes from 220.181.38.148 (220.181.38.148): icmp_seq=1 ttl=45 time=45.3 ms
+64 bytes from 220.181.38.148 (220.181.38.148): icmp_seq=2 ttl=45 time=51.7 ms
+64 bytes from 220.181.38.148 (220.181.38.148): icmp_seq=3 ttl=45 time=45.7 ms
+64 bytes from 220.181.38.148 (220.181.38.148): icmp_seq=4 ttl=45 time=46.0 ms
+64 bytes from 220.181.38.148 (220.181.38.148): icmp_seq=5 ttl=45 time=44.5 ms
+64 bytes from 220.181.38.148 (220.181.38.148): icmp_seq=6 ttl=45 time=44.7 ms
+64 bytes from 220.181.38.148 (220.181.38.148): icmp_seq=7 ttl=45 time=44.9 ms
+64 bytes from 220.181.38.148 (220.181.38.148): icmp_seq=8 ttl=45 time=48.0 ms
+64 bytes from 220.181.38.148 (220.181.38.148): icmp_seq=9 ttl=45 time=45.2 ms
+64 bytes from 220.181.38.148 (220.181.38.148): icmp_seq=10 ttl=45 time=48.0 ms
+64 bytes from 220.181.38.148 (220.181.38.148): icmp_seq=11 ttl=45 time=45.9 ms
+^C
+--- baidu.com ping statistics ---
+11 packets transmitted, 11 received, 0% packet loss, time 10085ms
+rtt min/avg/max/mdev = 44.546/46.407/51.789/2.052 ms
+> 我们使用ping命令的time=44.9 ms
+
+1，TTL是 Time To Live的缩写，该字段指定IP包被路由器丢弃之前允许通过的最大网段数量。TTL是IPv4包头的一个8 bit字段。
+2，在IPv4包头中TTL是一个8 bit字段，它位于IPv4包的第9个字节。每一行表示 32 bit（4字节），位从0开始编号，即0~31。
+
+3，TTL的作用是限制IP数据包在计算机网络中的存在的时间，TTL的最大值是255，TTL的一个推荐值是64。
