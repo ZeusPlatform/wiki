@@ -15,8 +15,7 @@ Android	192.79 *	142.53
 3. 使用curl和chrome Network面板查看http请求建立TCP链接的简单分析
 4. HTTP 1.1连接时间会保持多久
 5. 浏览器dns缓存时间
-6. html文档引用js和css资源对于加载时间的影响
-7. RTT (Round Trip Time往返时间)
+6. RTT (Round Trip Time往返时间)
 
 首先需要知道
 [onPageStarted](https://developer.android.com/reference/android/webkit/WebViewClient#onPageStarted(android.webkit.WebView,%20java.lang.String,%20android.graphics.Bitmap))
@@ -42,9 +41,10 @@ Notify the host application that a page has started loading. This method is call
 4. 假定android客户端webview初始化之后，立即加载网页，可以使用`window.performance.timing`来捕捉时间
 
 ## 几个结论
-1. 冷启动的webview耗时约为300~400ms
-2. Android端触发onPageStarted的时间大致发生在前端 window.performance.timing.domLoading 的时间点，误差30ms左右
-3. onPageFinished的时间大致发生在前端 window.performance.timing.domLoading 的时间点，误差30ms左右
+1. 冷启动的webview耗时约为500~600ms
+2. 客户端初始化webview完成的时间 对应于 navigationStart fetchStart 这两个前端时间
+3. 客户端时间 onPageStarted 对应于 responseStart responseEnd domLoading 这三个前端时间
+4. 客户端第一个onPageFinished 对应于 domInteractive domContentLoadedEventStart domContentLoadedEventEnd 这三个前端时间
 
 ## 实验过程
 机型： 小米8 (6 + 128)
@@ -267,15 +267,13 @@ max是最多的连接次数，若超过这个次数就强制断开连接
 ## [浏览器dns缓存时间](https://www.zhihu.com/question/302677878/answer/539583327)
 这个没什么好讲的啦
 >知乎上的答案： chrome://net-internals/#dns 已经不管用了
-
+![20191220152140.png](https://raw.githubusercontent.com/jiangbo0216/wiki/pic-bed/20191220152140.png)
 在 DNS 查询服务过程中，为了提高查询的效率引入了缓存机制，在本地计算机中，DNS缓存分两种，一种是浏览器缓存，一种是操作系统缓存。浏览器DNS缓存：浏览器的DNS缓存与DNS服务器返回的 TTL 值无关，浏览器在获取网站域名的实际IP后会对其IP进行缓存，至于缓存的时间，浏览器不直接与DNS服务器通信，而是与系统解析器通信，因此TTL与此无关，缓存过期时间，视具体的浏览器而定。    对于 Chrome：在浏览器中输入chrome://net-internals/#dns可查看DNS缓存有关的信息 ，在这个页面通过clear host cache可以清除 Chrome 缓存的信息。    对于 Firefox：在浏览器中输入about:config有一系列条目的设置项，与 DNS 缓存相关的是network.dnsCacheExpiration 和  network.dnsCacheExpirationGracePeriod ， 在63.0.3版本中，默认值是60和60，缓存时间即60s，对于network.dnsCacheEntries缓存条目，默认400条 操作系统DNS缓存：
 Windows：此电脑右键->管理->服务和应用程序->服务->DNS Client，可以从DNS Client描述中了解具体的信息：DNS客户端服务（dnscache）缓存域名系统（DNS）名称并注册该计算机的完整计算机名。
 如果该服务被停止，将继续解析DNS名称。然而，将不继续缓存DNS名称的查询结果，且不注册计算机名。
 
 如果该服务被禁用，则任何明确依赖于它的服务都将无法启动另外，通过 ipconfig/displaydns可以查看系统帮我们缓存的记录，而对于ipconfig/flushdns可以清楚缓存的记录。    Linux： 在Linux（可能是大多数Unix）上，除非安装并运行nscd，否则没有操作系统级别的DNS缓存。具体可查看How to read the local DNS cache contents?
 
-
-## html文档引用js和css资源对于加载时间的影响
 
 ## RTT时间
 RTT(Round-Trip Time): 往返时延，在计算机网络中它也是一个重要的性能指标，它表示从发送端发送数据开始，到发送端收到来自接收端的确认（接收端收到数据后便立即发送确认），总共经历的时延;
