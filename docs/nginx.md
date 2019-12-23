@@ -63,3 +63,8 @@ The regular expressions used by nginx are compatible with those used by the Perl
 ```
 server_name  ~^www\d+\.example\.net$;
 ```
+
+## 删除
+编译时的路径如果指定了--prefix /usr/local/xxx 直接rm -rf /usr/local/xxx即可。
+没指定路径，那就到源码路径执行make uninstall。
+如果源码删了 自己到 /usr/bin /etc /usr/sbin /usr/lib找到相关文件手动删除
