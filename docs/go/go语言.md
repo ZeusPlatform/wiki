@@ -696,10 +696,116 @@ func (v *Vertex) Scale(f float64) {
 
 func main() {
 	v := Vertex{3, 4}
-	v.Scale(10) // 自动转换  (&v).Scale(5)
+	v.Scale(10) // 自动转换  (&v).Scale(5)，function不会应用这种转换
 	fmt.Println(v.Abs())
 }
 
 ```
+
+method 对比 指针receiver
+```go
+var v Vertex
+ScaleFunc(v, 5)  // Compile error!
+ScaleFunc(&v, 5) // OK
+
+var v Vertex
+v.Scale(5)  // OK
+p := &v
+p.Scale(10) // OK
+
+```
+
+相反也是可以的
+```go
+var v Vertex
+fmt.Println(AbsFunc(v))  // OK
+fmt.Println(AbsFunc(&v)) // Compile error!
+
+var v Vertex
+fmt.Println(v.Abs()) // OK
+p := &v
+fmt.Println(p.Abs()) // OK
+
+```
+
+## interface implicitly
+```go
+package main
+
+import "fmt"
+
+type I interface {
+	M()
+}
+
+type T struct {
+	S string
+}
+
+// This method means type T implements the interface I,
+// but we don't need to explicitly declare that it does so.
+func (t T) M() { // 接口继承
+	fmt.Println(t.S)
+}
+
+func main() {
+	var i I = T{"hello"}
+	i.M()
+}
+
+```
+
+## 接口 保留了一个值具体类型
+```go
+package main
+
+import (
+	"fmt"
+	"math"
+)
+
+type I interface {
+	M()
+}
+
+type T struct {
+	S string
+}
+
+func (t *T) M() {
+	fmt.Println(t.S)
+}
+
+type F float64
+
+func (f F) M() {
+	fmt.Println(f)
+}
+
+func main() {
+	var i I
+
+	i = &T{"Hello"}
+	describe(i)
+	i.M()
+
+	i = F(math.Pi)
+	describe(i)
+	i.M()
+}
+
+func describe(i I) {
+	fmt.Printf("(%v, %T)\n", i, i)
+}
+
+```
+输出的值保留了具体的值
+(&{Hello}, *main.T)
+Hello
+(3.141592653589793, main.F)
+3.141592653589793
+
+## interface的zero值
+
 
 
