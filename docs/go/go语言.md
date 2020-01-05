@@ -806,6 +806,595 @@ Hello
 3.141592653589793
 
 ## interface的zero值
+```go
+package main
+
+import "fmt"
+
+type I interface {
+	M()
+}
+
+type T struct {
+	S string
+}
+
+func (t *T) M() {
+	if t == nil {
+		fmt.Println("<nil>")
+		return
+	}
+	fmt.Println(t.S)
+}
+
+func main() {
+	var i I
+	
+	var t *T
+	
+	i = t
+	fmt.Printf("(%v, %T)\n", i, i)
+	describe(i)
+	i.M()
+
+	i = &T{"hello"}
+	describe(i)
+	i.M()
+}
+
+func describe(i I) {
+	fmt.Printf("(%v, %T)\n", i, i)
+}
+
+```
+
+输出
+(<nil>, *main.T)
+(<nil>, *main.T)
+<nil>
+(&{hello}, *main.T)
+hello
+
+## Nil interface
+nil接口值既不包含值也不包含具体类型。
+在nil接口上调用方法是一个运行时错误，因为在接口元组中没有类型来指示调用哪个具体方法。
 
 
+## 空接口
+指定0方法的接口类型称为空接口:
+接口{}
+空接口可以包含任何类型的值。(每种类型至少实现了0个方法。)
+空接口由处理未知类型值的代码使用。例如,fmt。Print接受接口{}类型的任意数量的参数。
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	var i interface{}
+	describe(i)
+
+	i = 42
+	describe(i)
+
+	i = "hello"
+	describe(i)
+}
+
+func describe(i interface{}) {
+	fmt.Printf("(%v, %T)\n", i, i)
+}
+
+```
+
+(<nil>, <nil>)
+(42, int)
+(hello, string)
+
+## 类型断言 assertion
+t: =我。(t)
+该语句断言接口值i持有具体类型T，并将底层T值赋给变量T。
+如果我不持有一个T，这个声明将会引发恐慌。
+要测试接口值是否包含特定类型，类型断言可以返回两个值:基础值和一个布尔值，后者报告断言是否成功。
+t, ok:= i.(t)
+如果我持有一个T，那么T将是基础值，ok将为真。
+如果不是，ok就是假的
+> 请注意此语法与从地图中读取的语法之间的相似性。
+```go
+package main
+
+import "fmt"
+
+func main() {
+	var i interface{} = "hello"
+
+	s := i.(string)
+	fmt.Println(s)
+
+	s, ok := i.(string)
+	fmt.Println(s, ok)
+
+	f, ok := i.(float64)
+	fmt.Println(f, ok)
+
+	f = i.(float64) // panic
+	fmt.Println(f)
+}
+
+```
+hello
+hello true
+0 false
+panic: interface conversion: interface {} is string, not float64
+
+goroutine 1 [running]:
+main.main()
+	/tmp/sandbox377984392/prog.go:17 +0x220
+
+## Type Swithes
+```go
+package main
+
+import "fmt"
+
+func do(i interface{}) {
+	switch v := i.(type) {
+	case int:
+		fmt.Printf("Twice %v is %v\n", v, v*2)
+	case string:
+		fmt.Printf("%q is %v bytes long\n", v, len(v))
+	default:
+		fmt.Printf("I don't know about type %T!\n", v)
+	}
+}
+
+func main() {
+	do(21)
+	do("hello")
+	do(true)
+}
+
+```
+Twice 21 is 42
+"hello" is 5 bytes long
+I don't know about type bool!
+
+类型开关中的声明具有与类型断言i.(T)相同的语法，但特定类型T被关键字type替换。
+
+
+## Stringer
+One of the most ubiquitous(无处不在) interfaces is Stringer defined by the fmt package.
+```go
+type Stringer interface {
+    String() string
+}
+```
+使用
+```go
+package main
+
+import "fmt"
+
+type Person struct {
+	Name string
+	Age  int
+}
+
+func (p Person) String() string {
+	return fmt.Sprintf("%v (%v years)", p.Name, p.Age)
+}
+
+func main() {
+	a := Person{"Arthur Dent", 42}
+	z := Person{"Zaphod Beeblebrox", 9001}
+	fmt.Println(a, z)
+}
+```
+
+Arthur Dent (42 years) Zaphod Beeblebrox (9001 years)
+
+```go
+package main
+
+import "fmt"
+
+type IPAddr [4]byte
+
+// TODO: Add a "String() string" method to IPAddr.
+func (addr IPAddr) String() string {
+	return fmt.Sprintf("%d.%d.%d.%d", addr[0], addr[1], addr[2], addr[3])
+}
+
+func main() {
+	hosts := map[string]IPAddr{
+		"loopback":  {127, 0, 0, 1},
+		"googleDNS": {8, 8, 8, 8},
+	}
+	for name, ip := range hosts {
+		fmt.Printf("%v: %v\n", name, ip)
+	}
+}
+
+```
+
+loopback: 127.0.0.1
+googleDNS: 8.8.8.8
+
+## Error
+和Stringer类似是`built-in`接口
+
+```go
+type error interface {
+    Error() string
+}
+
+```
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+type MyError struct {
+	When time.Time
+	What string
+}
+
+func (e *MyError) Error() string {
+	return fmt.Sprintf("at %v, %s",
+		e.When, e.What)
+}
+
+func run() error {
+	return &MyError{
+		time.Now(),
+		"it didn't work",
+	}
+}
+
+func main() {
+	if err := run(); err != nil {
+		fmt.Printf("%T", err)
+		fmt.Println(err)
+	}
+}
+```
+
+## Reader
+func (T) Read(b []byte) (n int, err error) // 返回值
+
+```go
+package main
+
+import (
+	"fmt"
+	"io"
+	"strings"
+)
+
+func main() {
+	r := strings.NewReader("Hello, Reader!")
+
+	b := make([]byte, 8)
+	for {
+		n, err := r.Read(b)
+		fmt.Printf("n = %v err = %v b = %v\n", n, err, b)
+		fmt.Printf("b[:n] = %q\n", b[:n])
+		if err == io.EOF {
+			break
+		}
+	}
+}
+
+```
+输出
+n = 8 err = <nil> b = [72 101 108 108 111 44 32 82]
+b[:n] = "Hello, R"
+n = 6 err = <nil> b = [101 97 100 101 114 33 32 82]
+b[:n] = "eader!"
+n = 0 err = EOF b = [101 97 100 101 114 33 32 82]
+b[:n] = ""
+
+
+## Images
+
+
+## Goroutines
+A goroutine is a lightweight thread managed by the Go runtime.
+
+`go f(x, y, z)`
+starts a new goroutine running
+
+`f(x, y, z)`
+The evaluation of `f, x, y`, and `z` happens in the current goroutine and the execution of `f` happens in the new goroutine.
+
+Goroutines run in the same address space, so access to shared memory must be synchronized. The sync package provides useful primitives, although you won't need them much in Go as there are other primitives.
+
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func say(s string) {
+	for i := 0; i < 5; i++ {
+		time.Sleep(100 * time.Millisecond)
+		fmt.Println(s)
+	}
+}
+
+func main() {
+	go say("world")
+	say("hello")
+}
+
+```
+
+## Channels
+通道是一种有类型的管道，您可以通过它使用通道操作符发送和接收值
+
+```go
+package main
+
+import "fmt"
+
+func sum(s []int, c chan int) { // chan的类型是int
+	sum := 0
+	for _, v := range s {
+		sum += v
+	}
+	c <- sum // send sum to c
+}
+
+func main() {
+	s := []int{7, 2, 8, -9, 4, 0}
+
+	c := make(chan int)
+	go sum(s[:len(s)/2], c)
+	go sum(s[len(s)/2:], c)
+	x, y := <-c, <-c // receive from c
+
+	fmt.Println(x, y, x+y)
+}
+```
+
+## Buffered Channels
+```go
+package main
+
+import "fmt"
+
+func main() {
+	ch := make(chan int, 1)
+	ch <- 1
+	ch <- 2
+	fmt.Println(<-ch)
+	fmt.Println(<-ch)
+}
+```
+fatal error: all goroutines are asleep - deadlock!
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	ch := make(chan int, 2)
+	ch <- 1
+	ch <- 2
+	fmt.Println(<-ch)
+	fmt.Println(<-ch)
+}
+
+```
+1
+2
+
+## Range and Close
+A sender can close a channel to indicate that no more values will be sent. Receivers can test whether a channel has been closed by assigning a second parameter to the receive expression: after
+
+v, ok := <-ch
+ok is false if there are no more values to receive and the channel is closed.
+
+The loop for i := range c receives values from the channel repeatedly until it is closed.
+
+Note: Only the sender should close a channel, never the receiver. Sending on a closed channel will cause a panic.
+
+Another note: Channels aren't like files; you don't usually need to close them. Closing is only necessary when the receiver must be told there are no more values coming, such as to terminate a range loop.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func fibonacci(n int, c chan int) {
+	x, y := 0, 1
+	for i := 0; i < n; i++ {
+		c <- x
+		x, y = y, x+y
+	}
+	close(c)
+}
+
+func main() {
+	c := make(chan int, 10)
+	go fibonacci(cap(c), c)
+	for i := range c {
+		fmt.Println(i)
+	}
+}
+
+```
+0
+1
+1
+2
+3
+5
+8
+13
+21
+34
+
+## select
+The select statement lets a goroutine wait on multiple communication operations.
+
+A select blocks until one of its cases can run, then it executes that case. It chooses one at random if multiple are ready.
+
+// 这个代码的执行顺序很奇怪
+```go
+package main
+
+import "fmt"
+
+func fibonacci(c, quit chan int) {
+	x, y := 0, 1
+	for {
+		select {
+		case c <- x:
+			x, y = y, x+y
+		case <-quit:
+			fmt.Println("quit")
+			return
+		}
+	}
+}
+
+func main() {
+	c := make(chan int)
+	quit := make(chan int)
+	go func() {
+		for i := 0; i < 10; i++ {
+			fmt.Println(<-c)
+		}
+		quit <- 0
+	}()
+	fibonacci(c, quit)
+}
+
+```
+
+
+## Default Selection
+The default case in a select is run if no other case is ready.
+
+Use a default case to try a send or receive without blocking:
+```go
+select {
+case i := <-c:
+    // use i
+default:
+    // receiving from c would block
+}
+```
+
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	tick := time.Tick(100 * time.Millisecond)
+	boom := time.After(500 * time.Millisecond)
+	for {
+		select {
+		case <-tick:
+			fmt.Println("tick.")
+		case <-boom:
+			fmt.Println("BOOM!")
+			return
+		default:
+			fmt.Println("    .")
+			time.Sleep(50 * time.Millisecond)
+		}
+	}
+}
+```
+    .
+    .
+tick.
+    .
+    .
+tick.
+    .
+    .
+tick.
+    .
+    .
+tick.
+    .
+    .
+tick.
+BOOM!
+
+
+## sync.Mutex
+We've seen how channels are great for communication among goroutines.
+
+But what if we don't need communication? What if we just want to make sure only one goroutine can access a variable at a time to avoid conflicts?
+
+This concept is called mutual exclusion, and the conventional name for the data structure that provides it is mutex.
+
+Go's standard library provides mutual exclusion with sync.Mutex and its two methods:
+
+Lock
+Unlock
+We can define a block of code to be executed in mutual exclusion by surrounding it with a call to Lock and Unlock as shown on the Inc method.
+
+We can also use defer to ensure the mutex will be unlocked as in the Value method.
+
+
+
+```go
+package main
+
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
+// SafeCounter is safe to use concurrently.
+type SafeCounter struct {
+	v   map[string]int
+	mux sync.Mutex
+}
+
+// Inc increments the counter for the given key.
+func (c *SafeCounter) Inc(key string) {
+	c.mux.Lock()
+	// Lock so only one goroutine at a time can access the map c.v.
+	c.v[key]++
+	c.mux.Unlock()
+}
+
+// Value returns the current value of the counter for the given key.
+func (c *SafeCounter) Value(key string) int {
+	c.mux.Lock()
+	// Lock so only one goroutine at a time can access the map c.v.
+	defer c.mux.Unlock()
+	return c.v[key]
+}
+
+func main() {
+	c := SafeCounter{v: make(map[string]int)}
+	for i := 0; i < 1000; i++ {
+		go c.Inc("somekey")
+	}
+
+	time.Sleep(time.Second)
+	fmt.Println(c.Value("somekey"))
+}
+```
 

@@ -121,3 +121,6 @@ version
 ```
 scoop uninstall -p nodejs
 ```
+
+scoop config aria2-enabled false
+禁用aria2

@@ -1,5 +1,47 @@
+## 安装
+sudo apt-get update
+sudo apt-get install mysql-server
+
+## 配置
+sudo mysql_secure_installation
+[运行附带的安全脚本](https://dev.mysql.com/doc/refman/5.7/en/mysql-secure-installation.html)
+* You can set a password for root accounts.
+* You can remove root accounts that are accessible from outside the local host.
+* You can remove anonymous-user accounts.
+* You can remove the test database (which by default can be accessed by all users, even anonymous users), and privileges that permit anyone to access databases with names that start with test_.
+
+## 验证运行状态
+ systemctl status mysql.service
+使用wsl2需要使用下面的命令
+sudo service mysql restart
+sudo service mysql start
+sudo service mysql stop
+
+## 远程连接
+需要设置 mysql 数据库支持外部或者远程访问，则需要把绑定 IP 地址改为 0.0.0.0，或者不写IP地址。因此编辑配置文件：
+
+$ sudo vim /etc/mysql/mysql.conf.d/mysqld.cnf
+修改绑定地址为 0.0.0.0, 直接注释掉也可以。原来默认绑定 127.0.0.1 注释掉。
+
+bind-address = 0.0.0.0
+
+另外需要进入 MySQL 程序修改 root 账户的远程访问的权限。如果这一步不执行，则远程用 Navicat 访问时，会报 1130 错误。
+
+$ sudo mysql -u root -p
+进入 MySQL 以后输入
+
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '您的数据库密码' WITH GRANT OPTION;
+同时刷新权限
+
+flush privileges;
+修改完 mysqld.cnf 文件有最好重新启动服务器。
+
+systemctl restart mysql.service
+最终就完成了 MySQL 的安装与远程访问设置。
+
+
 ## 登录
-mysql -uroot -p
+mysql -uroot -p (或者需要使用sudo )
 
 ```
 show tables;
@@ -12,7 +54,7 @@ CREATE DATABASE <databaseName>;
 user表在mysql这个数据库中
 use mysql;
 
-select host, user, authentication_string, plugin from user;
+select host, user, authentication_string, plugin from mysql.user;
 
 主机 user 认证string plugin
 

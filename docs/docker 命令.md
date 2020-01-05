@@ -15,7 +15,7 @@ Go模板常用语法
 格式： {{/*注释内容*/}}
 示例：
 
-1
+
 docker network inspect --format='{{/*查看容器的默认网关*/}}{{range .IPAM.Config}}{{.Gateway}}{{end}}' $INSTANCE_ID
 变量
 系统变量 {{.}}
@@ -24,20 +24,11 @@ docker network inspect --format='{{/*查看容器的默认网关*/}}{{range .IPA
 
 示例代码：
 
-1
-2
+
 #可以通过级联调用直接读取子对象 State 的 Status 属性，以获取容器的状态信息：
 docker inspect --format '{{/*读取容器状态*/}}{{.State.Status}}' $INSTANCE_ID   
 注意： 如果需要获取的属性名称包含点号（比如下列示例数据）或者以数字开头，则不能直接通过级联调用获取信息。因为属性名称中的点号会被解析成级联信息，进而导致返回错误结果。即便使用引号将其包含也会提示语法格式错误。此时，需要通过 index 来读取指定属性信息。
 
-1
-2
-3
-4
-5
-6
-7
-8
 "Options": {
             "com.docker.network.bridge.default_bridge": "true",
             "com.docker.network.bridge.enable_icc": "true",
@@ -48,17 +39,7 @@ docker inspect --format '{{/*读取容器状态*/}}{{.State.Status}}' $INSTANCE_
         },
 示例操作：
 
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
+
 # 直接级联调用会提示找不到数据：
 docker inspect --format '{{.Options.com.docker.network.driver.mtu}}' bridge
 <no value>
@@ -75,13 +56,6 @@ docker0
 
 示例操作：
 
-1
-2
-3
-4
-5
-6
-7
 # 结合变量的使用，对输出结果进行组装展现，以输出容器的所有绑定端口列表：
 docker inspect --format '{{/*通过变量组合展示容器绑定端口列表*/}}已绑定端口列表：{{println}}{{range $p,$conf := .NetworkSettings.Ports}}{{$p}} -> {{(index $conf 0).HostPort}}{{println}}{{end}}' Web_web_1
  
@@ -92,8 +66,6 @@ docker inspect --format '{{/*通过变量组合展示容器绑定端口列表*/}
 遍历（循环）：range
 格式：
 
-1
-2
 {{range pipeline}}{{.}}{{end}}
 {{range pipeline}}{{.}}{{else}}{{.}}{{end}}
 range 用于遍历结构内返回值的所有数据。支持的类型包括 array, slice, map 和 channel。使用要点：
@@ -103,14 +75,7 @@ range 用于遍历结构内返回值的所有数据。支持的类型包括 arra
 
 示例操作：
 
-1
-2
-3
-4
-5
-6
-7
-8
+
 # 查看容器网络下已挂载的所有容器名称，如果没有挂载任何容器，则输出 "With No Containers"
 docker inspect --format '{{range .Containers}}{{.Name}}{{println}}{{else}}With No Containers{{end}}' bridge
 brtest
@@ -124,19 +89,6 @@ With No Containers
 
 示例代码:
 
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
 # docker inspect $INSTANCE_ID 查看容器绑定的端口信息，其 Config 属性就是一个 Map，包含了所有子网信息。
 ...
  "IPAM": {
@@ -152,8 +104,6 @@ With No Containers
 ...
 示例操作：
 
-1
-2
 # 通过索引序号读取默认网关
 docker inspect bridge --format '{{/*查看网络的默认网关*/}}{{(index .IPAM.Config 0).Gateway}}'
 判断：if … else … end
@@ -163,8 +113,7 @@ docker inspect bridge --format '{{/*查看网络的默认网关*/}}{{(index .IPA
 
 示例:
 
-1
-2
+
 # 如果容器的 restarting 设置为 false，则返回信息“容器没有配置重启策略”
 docker inspect --format '{{if not .State.Restarting}}容器没有配置重启策略{{end}}' $(docker ps -q)
 2) or
@@ -174,19 +123,17 @@ docker inspect --format '{{if not .State.Restarting}}容器没有配置重启策
 
 示例:
 
-1
+
 docker inspect --format '{{or .State.Status .State.Restarting}}' $INSTANCE_ID
 判断条件
 判断语句通常需要结合判断条件一起使用，使用格式基本相同：
 
-1
+
 {{if 判断条件 .Var1 .Var2}}{{end}}
 go模板支持如下判断方式：
 1)  eq: 相等，即 arg1 == arg2。比较特殊的是，它支持多个参数进行与比较，此时，它会将第一个参数和其余参数依次比较，返回下式的结果：
 
-1
-2
-3
+
 {{if eq true .Var1 .Var2 .Var3}}{{end}}
 # 效果等同于：
 arg1==arg2 || arg1==arg3 || arg1==arg4 ...
@@ -199,21 +146,12 @@ arg1==arg2 || arg1==arg3 || arg1==arg4 ...
 判断的使用
 格式：
 
-1
-2
-3
 {{if pipeline}}{{end}}
 {{if pipeline}}{{else}}{{if pipeline}}{{end}}{{end}}
 {{if pipeline}}{{else if pipeline}}{{else}}{{end}}
 示例:
 
-1
-2
-3
-4
-5
-6
-7
+
 # 输出所有已停止的容器名称：
 docker inspect --format '{{if ne 0.0 .State.ExitCode}}{{.Name}}{{end}}' $(docker ps -aq)
 docker inspect --format '{{if ne 0.0 .State.ExitCode}}{{.Name}}{{else}}该容器还在运行{{end}}' $(docker ps -aq)
@@ -229,18 +167,7 @@ printf:   与 shell 等环境一致，可配合占位符用于格式化输出。
 
 对比示例输出:
 
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
+
 docker inspect --format '{{.State.Pid}}{{.State.ExitCode}}' $INSTANCE_ID
 240390
  
@@ -257,15 +184,13 @@ Pid:24039 ExitCode:0
 管道 即 pipeline ，与 shell 中类似，可以是上下文的变量输出，也可以是函数通过管道传递的返回值。
 示例：
 
-1
-2
+
 {{.Con | markdown | addlinks}}
 {{.Name | printf "%s"}}
 内置函数 len
 内置函数 len 返回相应对象的长度。
 示例：
 
-1
 docker inspect --format '{{len .Name}}' $INSTANCE_ID
 Docker 增强模板及函数
 Docker 基于 go模板的基础上，构建了一些内置函数。
@@ -308,100 +233,6 @@ split
 docker inspect --format '{{split .HostsPath "/"}}' $INSTANCE_ID
 ============================常用docker inspect --format 输出示例========================
 
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
 [root@node1 ~]# docker ps
 CONTAINER ID        IMAGE                            COMMAND                  CREATED             STATUS              PORTS               NAMES
 2ed603e52896        172.16.60.214:5000/kevin_nginx   "/bin/sh -c '/usr/..."   13 minutes ago      Up 13 minutes                           docker-test111

@@ -57,3 +57,8 @@ SELECT plugin FROM mysql.user WHERE User = 'root';
 ## 删除容器
 `docker container prune`
 
+## 查看容器日志
+`docker log <container>`
+
+## 重启容器
+`docker restart <container>`
