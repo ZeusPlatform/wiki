@@ -15,10 +15,15 @@
 * 在visual studio中上面的三个步骤集合到了 build 中
 
 One of the hardest things I found when first learning C++, outside of learning about pointers and memory management, was how to successfully compile code using third-party libraries.
+
 As a game developer, you rely a lot on libraries for aspects of your game, such as rendering and physics, and it can be surprisingly tricky to successfully compile an empty project with these libraries included.
+
 I struggled because I simply didn’t understand how C++ programs were built and distributed over the internet. I didn’t understand how my source code was turned into an executable or library, nor did I understand how to compile platform-independent code.
+
 This meant that I simply did not know how to incorporate a library into my code, or I’d be banging my head against a wall trying to resolve errors that occurred when trying to compile. In reality, this shouldn’t be the difficult part of building your game.
+
 This knowledge isn’t something that I have found to be taught. The focus is mostly on problem-solving and C++ syntax and yet, if you want to do any serious game programming in C++ without writing everything from scratch, this knowledge is required.
+
 Therefore, I want to write a series of articles exploring many of the issues I have discussed. This first article will look at learning how to compile a C++ program.
 
 ## The Three-Step Process
