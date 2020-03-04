@@ -116,3 +116,13 @@ certutil -hashfile filename MD5
 certutil -hashfile filename SHA1
 certutil -hashfile filename SHA256
 ```
+
+## 创建服务
+sc create NewService  binPath= "D:\c#workspace\WPF\WPF\bin\Debug\start1.bat"  type= share start= auto displayname= "BWJXServices"
+
+## 录屏
+win + G
+
+## 截图
+shift + win + s
+

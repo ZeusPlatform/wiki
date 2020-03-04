@@ -166,3 +166,12 @@ circle 半径计算 [`sqrt(width^2+height^2)/sqrt(2)`](https://developer.mozilla
 ## [vertical-align](https://developer.mozilla.org/en-US/docs/Web/CSS/vertical-align)
 适用于 inline table-cell box
 
+
+## 防止图片裂掉
+//解决当img为空时出现空框，图裂的问题
+```css
+
+img[src=""],img:not([src]){
+          opacity:0;
+}
+```

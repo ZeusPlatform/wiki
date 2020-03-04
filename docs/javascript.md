@@ -95,3 +95,9 @@ String.fromCharCode(8255)
 str.charCodeAt(char).toString(进制)
 
 String.fromCharCode(parseInt(code,进制))
+
+### JSON pretty
+```js
+var jsonString = '{"some":"json"}';
+var jsonPretty = JSON.stringify(JSON.parse(jsonString),null,2);  
+```
