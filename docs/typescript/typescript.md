@@ -75,3 +75,68 @@ function identity<T>(arg: T): T {
     return arg;
 }
 ```
+
+## 类型推断
+
+```ts
+myArray:[]; //Incorrect, results in error message of `Property '0' is missing in type`
+
+myArray: Array<string>; //Correct
+
+myArray: string[]; //Also correct
+
+myArray: [string]; // braces denote a tuple in Typescript
+
+```
+
+## TS2345:Argument of type 'Buffer' is not assignable to parameter of type 'string'
+
+```ts
+let communicationInformation = JSON.parse(newCommunication.content.toString());
+```
+
+
+
+## 内置模块引入
+
+```js
+import * as fs from 'fs';
+import * as path from 'path';
+```
+
+## ts表示一个空数组
+
+```ts
+[] & { length: 0 }
+```
+
+类似的错误在js中无法检查
+
+```ts
+interface CommonResponse<T> {
+  data?: T;
+  messages?: { error: string, info: string, warn: string };
+  statusCode?: string;
+  meta?: {
+      paging: {
+          total: number;
+          limit: number;
+      }
+  };
+  links?: any;
+  included?: any;
+}
+
+function test1() {
+  return {data: []} as CommonResponse<[] & {length: 0}>
+}
+
+const a = test1()
+a.data[0].c
+```
+
+
+## 忽略ts中的错误提示
+
+// @ts-ignore：无法被执行的代码的错误
+

@@ -42,5 +42,6 @@ You can read more about the configuration files:
 * tsconfig.json consult the TypeScript Handbook
 
 
-
+### 禁止abc提示
+"javascript.suggest.names": false
 

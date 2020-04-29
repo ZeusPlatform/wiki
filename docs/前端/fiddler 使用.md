@@ -76,3 +76,25 @@ if(m_ForceCORS &&
 如果写成这样，fiddler 能匹配请求：http://www.test.com/product/123，但是 json 文件的路径会不对，路径会变成：C:\Users\username\Desktop\product.json\123 ，因为没有这个文件，响应会是 404 ，如下图：
 
 正确的写法是：regex:http://www.test.com/product/\d+ ，如下图：
+
+
+## https转http
+var hosts = 'm.yourdomain.com';  // 这里修改成你要代理的https的域名
+FiddlerApplication.Log.LogFormat("Logger session {0}, Url: {1}, isHttps: {2}, port: {3}", oSession.id, oSession.fullUrl, oSession.isHTTPS, oSession.port);
+if(oSession.host.indexOf(hosts) > -1){
+    FiddlerApplication.Log.LogFormat("Capture session {0}, Url: {1}, isHttps: {2}, port: {3}", oSession.id, oSession.fullUrl, oSession.isHTTPS, oSession.port);
+    if(oSession.HTTPMethodIs('CONNECT')){
+      FiddlerApplication.Log.LogString('create fake tunnel response');
+      oSession['x-replywithtunnel'] = 'FakeTunnel';
+      return;
+  }
+
+  if (oSession.isHTTPS){
+    FiddlerApplication.Log.LogString('switch https to http request');
+    oSession.fullUrl = oSession.fullUrl.Replace("https://","http://");
+    oSession.port = 80;
+  }   
+
+  FiddlerApplication.Log.LogFormat("Processed session {0}, Url: {1}, isHttps: {2}, port: {3}", oSession.id, oSession.fullUrl, oSession.isHTTPS, oSession.port);
+}
+FiddlerApplication.Log.LogFormat("Logger session {0}, Url: {1}, isHttps: {2}, port: {3}", oSession.id, oSession.fullUrl, oSession.isHTTPS, oSession.port);    

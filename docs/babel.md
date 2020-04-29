@@ -317,3 +317,26 @@ http://babeljs.io/
 https://github.com/thejamesky...
 https://excaliburhan.com/post...
 https://icyfish.me/2017/05/18...
+
+
+## 为什么有时require一个nodejs模块需要加上.default而有时不需要？
+babel可以把 import/export 转成node 的 module.exports/ require 。
+但是Babel@6不再export default 的module.exports了。
+如果使用了babel-plugin-add-module-exports插件，那么它会自动帮你做这件事情。
+
+This plugin follows the babel@5 behavior - add the module.exports if only the export default declaration exists.
+
+如果一个模块中仅仅export default， 那么就不用加.default了。如果除此之外还有别的对象被 export 出来，那不好意思，只能老老实实写default 了。
+```js
+
+'use strict';
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = 'foo';
+module.exports = exports['default'];
+
+// 调用时
+require('./bundle.js') // foo
+```
+详见[babel-plugin-add-module-exports](https://github.com/59naga/babel-plugin-add-module-exports#readme)的readme首页。

@@ -577,3 +577,189 @@ var one = new Person({
     gender:' male'
 })
 ```
+
+## API
+
+```ts
+find(callback?: (err: any, res: T[]) => void): DocumentQuery<T[], T, QueryHelpers> & QueryHelpers;
+find(conditions: any, callback?: (err: any, res: T[]) => void): DocumentQuery<T[], T, QueryHelpers> & QueryHelpers;
+find(conditions: any, projection?: any | null,
+  callback?: (err: any, res: T[]) => void): DocumentQuery<T[], T, QueryHelpers> & QueryHelpers;
+find(conditions: any, projection?: any | null, options?: any | null,
+  callback?: (err: any, res: T[]) => void): DocumentQuery<T[], T, QueryHelpers> & QueryHelpers;
+```
+
+
+
+[projection](https://mongoosejs.com/docs/api.html#query_Query-select)
+
+Specifies which document fields to include or exclude (also known as the query "projection")
+
+When using string syntax, prefixing a path with - will flag that path as excluded. When a path does not have the - prefix, it is included. Lastly, if a path is prefixed with +, it forces inclusion of the path, which is useful for paths excluded at the schema level.
+
+A projection must be either inclusive or exclusive. In other words, you must either list the fields to include (which excludes all others), or list the fields to exclude (which implies all other fields are included). The _id field is the only exception because MongoDB includes it by default.
+
+示例:
+1. string '-__v'
+2. 
+指定要包含或排除哪些文档字段(也称为查询“投影”)
+当使用字符串语法时，在路径前面加上-将把该路径标记为已排除。当一个路径没有-前缀时，它就会被包含进来。最后，如果路径的前缀是+，则强制包含路径，这对于模式级别上被排除的路径非常有用。
+投影必须是包含或排除的。换句话说，您必须列出要包含的字段(这排除了所有其他字段)，或者列出要排除的字段(这意味着包含了所有其他字段)。_id字段是t
+示例
+```js
+// include a and b, exclude other fields
+query.select('a b');
+
+// exclude c and d, include other fields
+query.select('-c -d');
+
+// Use `+` to override schema-level `select: false` without making the
+// projection inclusive.
+const schema = new Schema({
+  foo: { type: String, select: false },
+  bar: String
+});
+// ...
+query.select('+foo'); // Override foo's `select: false` without excluding `bar`
+
+// or you may use object notation, useful when
+// you have keys already prefixed with a "-"
+query.select({ a: 1, b: 1 });
+query.select({ c: 0, d: 0 });
+```
+
+[option](https://mongoosejs.com/docs/api.html#query_Query-setOptions)
+Options:
+The following options are only for find():
+
+* tailable
+* sort
+* limit
+* skip
+* maxscan
+* batchSize
+* comment
+* snapshot
+* readPreference
+* hint
+The following options are only for write operations: update(), updateOne(), updateMany(), replaceOne(), findOneAndUpdate(), and findByIdAndUpdate():
+
+* upsert
+* writeConcern
+* timestamps: If timestamps is set in the schema, set this option to false to skip timestamps for that particular update. Has no effect if timestamps is not enabled in the schema options.
+* omitUndefined: delete any properties whose value is undefined when casting an update. In other words, if this is set, Mongoose will delete baz from the update in Model.updateOne({}, { foo: 'bar', baz: undefined }) before sending the update to the server.
+The following options are only for find(), findOne(), findById(), findOneAndUpdate(), and findByIdAndUpdate():
+
+* lean
+* populate
+* projection
+The following options are only for all operations except update(), updateOne(), updateMany(), remove(), deleteOne(), and deleteMany():
+
+* maxTimeMS
+The following options are for findOneAndUpdate() and findOneAndRemove()
+
+* useFindAndModify
+* rawResult
+The following options are for all operations
+* collation
+* session
+* explain
+
+## 排序
+
+```js
+// Find First 10 News Items
+News.find({
+    deal_id:deal._id // Search Filters
+},
+['type','date_added'], // Columns to Return
+{
+    skip:0, // Starting Row
+    limit:10, // Ending Row
+    sort:{
+        date_added: -1 //Sort by Date Added DESC
+    }
+},
+function(err,allNews){
+    socket.emit('news-load', allNews); // Do something with the array of 10 objects
+})
+```
+
+
+
+## 实现id自增
+IncrementId
+```js
+var mongoose = require('mongoose');
+
+var Sequence = require('./sequence');
+
+var pieceSchema = mongoose.Schema({
+
+    id: { type : Number, index: { unique: true } },
+    content: String,
+    link: String,
+    pics:[String] ,
+    author: mongoose.Schema.ObjectId ,
+    work: Boolean,
+    updated: { type: Date, default: Date.now },
+    created: { type: Date, default: Date.now }
+    
+})
+
+//在创建文档时，获取自增ID值
+pieceSchema.pre('save', function(next) {
+    var self = this;
+    if( self.isNew ) {
+        Sequence.increment('Piece',function (err, result) {
+            if (err)
+              throw err;
+            self.id = result.value.next;
+            next();
+        });
+    } else {
+        next();
+  }
+})
+
+var Piece = mongoose.model('Piece', pieceSchema);
+
+module.exports = Piece
+```
+
+sequence
+```js
+var mongoose = require('mongoose');
+
+var Schema = mongoose.Schema;
+var models = {};
+/**
+  * 存储ID的序列值
+  */
+SequenceSchema = new Schema({
+    _id: String,
+    next: Number 
+});
+
+SequenceSchema.statics.findAndModify = function (query, sort, doc, options, callback) {
+    return this.collection.findAndModify(query, sort, doc, options, callback);
+};
+
+SequenceSchema.statics.increment = function (schemaName, callback) {
+    return this.collection.findAndModify({ _id: schemaName }, [], 
+            { $inc: { next: 1 } }, {"new":true, upsert:true}, callback);
+};
+
+var Sequence = mongoose.model('Sequence', SequenceSchema);
+
+module.exports = Sequence
+```
+
+
+
+## 删除某个值需要设置成undefined
+
+
+
+
+

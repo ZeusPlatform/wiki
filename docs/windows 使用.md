@@ -126,3 +126,8 @@ win + G
 ## 截图
 shift + win + s
 
+## 查看电池使用情况
+
+```cmd
+powercfg /batteryreport /output “C: eport.html”
+```

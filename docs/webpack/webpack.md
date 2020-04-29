@@ -10,6 +10,18 @@
 6. module.rules [{test,exclude,loader}]
 7. plugins: new webpack.HootModuleReplacementPlugin(), new HtmlWebpackPlugin({template,inject})
 
+### webpack-dev-server监听0.0.0.0
+
+  devServer: {
+    hot: true,
+    watchOptions: {
+      poll: true
+    },
+    host: '0.0.0.0',
+    port: 8080,
+    contentBase: path.join(__dirname, 'test'),
+  },
+
 ### 查看dev-server文件
 例子：http://localhost:8081/webpack-dev-server
 
@@ -111,7 +123,7 @@ webpack多入口文件页面打包配置
 
 示例的文件目录如下：
 
-## entry
+### entry
 单页应用程序的入口配置一般如下所示：
 
 ```javascript
@@ -205,7 +217,7 @@ plugins: [
 ]
 
 ```
-## html-webpack-plugin
+### html-webpack-plugin
 html-webpack-plugin插件的使用，在单页应用程序和多页应用程序中的 webpack配置没什么区别
 
 ```javascript
@@ -325,16 +337,6 @@ module.exports = webpackconfig
 
 另外，如果你的项目目录结构和我示例的目录结构不一样，那么就需要你根据自己的目录结构对代码进行少许的修改，但整体解决问题的方法是不变的，一个易于维护的项目，目录结构都该是有律可循的。
 
-## webpack-dev-server监听0.0.0.0
 
-  devServer: {
-    hot: true,
-    watchOptions: {
-      poll: true
-    },
-    host: '0.0.0.0',
-    port: 8080,
-    contentBase: path.join(__dirname, 'test'),
-  },
 
 
