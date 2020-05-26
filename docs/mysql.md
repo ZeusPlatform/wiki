@@ -93,3 +93,27 @@ pool.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
 });
 ```
 参考链接： https://www.npmjs.com/package/mysql
+
+
+### 常用命令
+连接远程
+mysql -u root -p -h host
+
+选中表格
+use databaseName;
+
+获取数据库中的表
+select TABLE_NAME,TABLE_TYPE,ENGINE,TABLE_ROWS,TABLE_COMMENT,CREATE_TIME,UPDATE_TIME, CHECK_TIME from information_schema.TABLES where TABLE_SCHEMA='xxxx' ;
+
+或者
+
+SHOW TABLES;
+
+获取表中的字段
+
+select COLUMN_NAME,DATA_TYPE,CHARACTER_MAXIMUM_LENGTH,IS_NULLABLE,COLUMN_COMMENT from information_schema.COLUMNS where TABLE_NAME='xxxx' ;
+
+或者
+DESCRIBE xxx;
+
+desc xxxx;

@@ -757,9 +757,27 @@ module.exports = Sequence
 
 
 
-## 删除某个值需要设置成undefined
+# MongoDB逻辑操作符$or, $and,$not,$nor,$in
+
+```
+{ $or: [ { <expression1> }, { <expression2> }, ... , { <expressionN> } ] }
+```
+
+```
+{ $and: [ { <expression1> }, { <expression2> } , ... , {<expressionN> } ] }
+```
 
 
 
+## 生成ObjectId
+
+```js
+var mongoose = require('mongoose');
+var id = mongoose.Types.ObjectId();
+```
 
 
+
+## upsert
+
+upsert 的名字也很有趣是个混合体：update+insert

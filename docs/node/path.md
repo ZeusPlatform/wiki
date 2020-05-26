@@ -2,12 +2,12 @@
 
 然后我们在task.js文件中写入一下代码
 
-```
+```js
 const path = require('path');
 console.log(__dirname);
 console.log(__filename);
 console.log(process.cwd());
-console.log(path.resolve('./'));复制代码
+console.log(path.resolve('./'));
 ```
 
 在editor目录下运行node src/task.js，我们可以看到结果如下：

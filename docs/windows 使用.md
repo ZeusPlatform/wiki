@@ -131,3 +131,80 @@ shift + win + s
 ```cmd
 powercfg /batteryreport /output “C: eport.html”
 ```
+
+## 注册表禁用HTTP服务 
+计算机\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\HTTP
+修改Start的值, 4表示禁止
+
+
+
+## 注册表
+
+###  计算机\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services
+
+**HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services** contains [sub-keys for services and device drivers](https://www.itprotoday.com/article/tips/jsi-tip-1328-serial-sub-key-can-cause-event-log-errors--72653). The following **value** entries appear in most sub-keys:
+
+**ErrorControl** is a type **REG_DWORD** which specifies how to proceed if the driver fails to load or to initialize properly:
+
+**HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services** contains [sub-keys for services and device drivers](https://www.itprotoday.com/article/tips/jsi-tip-1328-serial-sub-key-can-cause-event-log-errors--72653). The following **value** entries appear in most sub-keys:
+
+**ErrorControl** is a type **REG_DWORD** which specifies how to proceed if the driver fails to load or to initialize properly:
+
+
+
+DOWNLOAD OUR EXCLUSIVE REPORT | AN ITPRO GUIDE TO MULTICLOUD MANAGEMENT
+
+To learn how to best integrate, maintain and optimize your heterogeneous platforms
+
+ACCESS THE REPORT
+
+CONTINUE TO SITE
+
+| Value | D e s c r i p t i o n                                        |
+| ----- | ------------------------------------------------------------ |
+| 0     | Ignore: If the driver fails to load or initialize, startup proceeds, and no warning message appears. |
+| 1     | Normal: If the driver fails to load or initialize, startup proceeds, but a warning message appears. |
+| 2     | Severe: If the driver fails to load or initialize, declares the startup as having failed and restarts by using the LastKnownGood control set. If startup is already using the LastKnownGood control set, continues startup. |
+| 3     | Critical: If the driver fails to load or initialize, declares the startup as having failed and restarts by by using the LastKnownGood control set. If startup is already using the LastKnownGood control set, stops startup and runs a debugging program. |
+
+**ImagePath** is a type **REG_EXPAND_SZ** that contains the full path to the executable. This entry is not used for network adapters.
+
+**ObjectName** is a type **REG_DWORD** which contains the account name for services or the driver object that the I/O manager uses to load the device driver.
+
+**Start** is a type **REG_DWORD** which specifies how the service is loaded or started. If the service is a Win32 service, the value of Start must be 2, 3, or 4. This value entry is not used for network adapters.
+
+
+
+| Value | D e s c r i p t i o n                                        |
+| ----- | ------------------------------------------------------------ |
+| 0     | Boot: Loaded by kernel loader. Components of the driver stack for the boot (startup) volume must be loaded by the kernel loader. |
+| 1     | System: Loaded by I/O subsystem. Specifies that the driver is loaded at kernel initialization. |
+| 2     | Automatic: Loaded by Service Control Manager. Specifies that the service is loaded or started automatically. |
+| 3     | Manual:. The service does not start until the user starts it manually, such as by using Services or Devices in Control Panel. |
+| 4     | Disabled: Specifies that the service should not be started.  |
+
+**Type** is a type **REG_DWORD** that specifies what this object represents:
+
+
+
+| Value       | D e s c r i p t i o n                                        |
+| ----------- | ------------------------------------------------------------ |
+| 1           | A kernel-mode device driver.                                 |
+| 2           | A file system driver.                                        |
+| 4           | A set of arguments for an adapter.                           |
+| 8           | A file system driver service, such as a file system recognizer. |
+| 16 (0x10)   | A Win32 program that runs in a process by itself. This type of Win32 service.can be started by the Service Controller. |
+| 32 (0x20    | A Win32 program that shares a process. This type of Win32 service can be started by the Service Controller. |
+| 272 (0x110) | A Win32 program that runs in a process by itself (like Type16) and can interact with users. |
+| 288 (0x120) | A Win32 program that shares a process and can interact with users. |
+
+
+
+ **Learn more:** [System Restore Registry Entries](https://www.itprotoday.com/article/windows-xp2/system-restore-registry-entries-25959)
+
+## 查看http服务状态
+
+**netsh http show servicestate**
+
+## 刷新dns
+ipconfig /flushdns

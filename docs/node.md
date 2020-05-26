@@ -126,3 +126,18 @@ path.posix.basename('/tmp/myfile.html');
 
 
 ## child_process
+
+
+## 内存查看
+单位字节 byte
+
+```js
+> process.memoryUsage()
+{
+  rss: 23322624,
+  heapTotal: 5685248,
+  heapUsed: 3203920,
+  external: 1450146  
+}
+```
+
