@@ -401,3 +401,8 @@ registry = http://registry.example.com/
 链接：https://juejin.im/post/5ab3f77df265da2392364341
 来源：掘金
 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+
+## 查找全局安装的库
+
+npm list -g --depth 0
