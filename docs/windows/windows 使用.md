@@ -208,3 +208,29 @@ CONTINUE TO SITE
 
 ## 刷新dns
 ipconfig /flushdns
+
+## 配置文件备份
+```cmd
+move .czrc .\OneDrive\config\.czrc
+
+mklink  .czrc  .\OneDrive\config\.czrc
+```
+
+
+
+## 路径跳转
+
+scoop install z
+
+## cmd
+
+### 当前用户目录
+
+cd %homepath%
+
+### 删除命令
+del
+
+## windows
+不同电脑之前环境迁移很困难
+配置文件耦合太严重（注册表）
