@@ -208,3 +208,10 @@ CONTINUE TO SITE
 
 ## 刷新dns
 ipconfig /flushdns
+
+## 配置文件备份
+```cmd
+move .czrc .\OneDrive\config\.czrc
+
+mklink  .czrc  .\OneDrive\config\.czrc
+```
