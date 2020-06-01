@@ -65,4 +65,123 @@ Promise.resolve('') as as Promise<string>
 promise.resolve<string>('code')
 ```
 
-## 
+## import * as xxx from ''
+default 导出, 需要使用 xxx.default 来获取
+
+## keyof and Lookup Types
+
+##### Example
+
+```ts
+interface Person {
+  name: string;
+  age: number;
+  location: string;
+}
+
+type K1 = keyof Person; // "name" | "age" | "location"
+type K2 = keyof Person[]; // "length" | "push" | "pop" | "concat" | ...
+type K3 = keyof { [x: string]: Person }; // string
+```
+
+The dual of this is *indexed access types*, also calle
+
+
+
+## Mapped Types
+
+One common task is to take an existing type and make each of its properties entirely optional. Let’s say we have a `Person`:
+
+```
+interface Person {
+  name: string;
+  age: number;
+  location: string;
+}
+```
+
+A partial version of it would be:
+
+```
+interface PartialPerson {
+  name?: string;
+  age?: number;
+  location?: string;
+}
+```
+
+with Mapped types, `PartialPerson` can be written as a generalized transformation on the type `Person` as:
+
+```
+type Partial<T> = {
+  [P in keyof T]?: T[P];
+};
+
+type PartialPerson = Partial<Person>;
+```
+
+
+
+### Deferred
+
+相同的属性名称，但使值是一个 `Promise`，而不是一个具体的值：
+
+```ts
+type Deferred<T> = {
+    [P in keyof T]: Promise<T[P]>;
+};
+```
+
+
+
+
+
+## `object` type
+
+TypeScript did not have a type that represents the non-primitive type, i.e. any thing that is not `number`, `string`, `boolean`, `symbol`, `null`, or `undefined`. Enter the new `object` type.
+
+With `object` type, APIs like `Object.create` can be better represented. For example:
+
+```ts
+declare function create(o: object | null): void;
+
+create({ prop: 0 }); // OK
+create(null); // OK
+
+create(42); // Error
+create("string"); // Error
+create(false); // Error
+create(undefined); // Error
+```
+
+## 全局扩充
+参考链接：
+https://www.itranslater.com/qa/details/2109727184179954688
+
+https://www.tslang.cn/docs/handbook/declaration-merging.html
+```ts
+import MyInterface from './MyInterface';
+
+declare global {
+    interface Window {
+        propName: MyInterface
+    }
+}
+```
+
+```ts
+// observable.ts
+export class Observable<T> {
+    // ... still no implementation ...
+}
+
+declare global {
+    interface Array<T> {
+        toObservable(): Observable<T>;
+    }
+}
+
+Array.prototype.toObservable = function () {
+    // ...
+}
+```
