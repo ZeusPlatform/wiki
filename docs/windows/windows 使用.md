@@ -234,3 +234,8 @@ del
 ## windows
 不同电脑之前环境迁移很困难
 配置文件耦合太严重（注册表）
+## 创建软连接
+mklink /d C:\"Program Files"\Git D:\Application\Scoop\apps\git\current
+
+## 删除软连接
+rmdir C:\"Program Files"\Git
