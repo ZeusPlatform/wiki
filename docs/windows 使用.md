@@ -215,3 +215,8 @@ move .czrc .\OneDrive\config\.czrc
 
 mklink  .czrc  .\OneDrive\config\.czrc
 ```
+## 创建软连接
+mklink /d C:\"Program Files"\Git D:\Application\Scoop\apps\git\current
+
+## 删除软连接
+rmdir C:\"Program Files"\Git
