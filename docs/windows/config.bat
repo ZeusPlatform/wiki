@@ -1,7 +1,9 @@
+wsl --set-default-version 2
+
 cd %homepath%
 
 
-del .npmrc
+del .npmrcp
 mklink .\.npmrc .\OneDrive\.npmrc
 
 del .gitconfig
