@@ -140,3 +140,22 @@ a.data[0].c
 
 // @ts-ignore：无法被执行的代码的错误
 
+## extends keyof
+
+You can use this pattern with other parts of the type system to get type-safe lookups.
+
+```ts
+function getProperty<T, K extends keyof T>(obj: T, key: K) {
+    return obj[key];  // Inferred type is T[K]
+}
+
+function setProperty<T, K extends keyof T>(obj: T, key: K, value: T[K]) {
+    obj[key] = value;
+}
+
+// From T pick a set of properties K
+declare function pick<T, K extends keyof T>(obj: T, ...keys: K[]): Pick<T, K>;
+
+const nameAndAgeOnly = pick(person, "name", "age");  // { name: string, age: number }
+```
+
