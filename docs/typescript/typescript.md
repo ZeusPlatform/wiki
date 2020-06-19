@@ -161,3 +161,16 @@ const nameAndAgeOnly = pick(person, "name", "age");  // { name: string, age: num
 
 ## keyof typeof
 获取对象的键
+
+
+## tsconfig
+
+tsconfig 会搜搜索所在目录的所有文件,所有的类型文件,如果你在子目录新建的tsconfig, 需要用到上级的type定义,需要包含进来
+
+```
+{
+  "include": [
+    "../types"
+  ],
+}
+```
