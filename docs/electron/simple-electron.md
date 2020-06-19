@@ -43,3 +43,13 @@ electron-packager .
 
 解决：
 安装Microsoft .NET Framework 4.5和Powershell 3(需要Windows Management Framework 4.0)
+
+## 检查页面环境是不是支持electron 
+
+
+```js
+import electron from 'electron'
+const b = electron.remote.getCurrentWindow()
+
+console.log(b.id)
+```

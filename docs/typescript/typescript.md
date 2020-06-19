@@ -159,3 +159,5 @@ declare function pick<T, K extends keyof T>(obj: T, ...keys: K[]): Pick<T, K>;
 const nameAndAgeOnly = pick(person, "name", "age");  // { name: string, age: number }
 ```
 
+## keyof typeof
+获取对象的键
