@@ -8,8 +8,9 @@ class HelloEmitter extends EventEmitter {
 }
 
 const a = new HelloEmitter()
-a.on('hello', () => {})
+a.on('hello', () => {console.log('hello')})
 
-a.good()
+a.hello()
+a.emit('hello')
 
 ```
