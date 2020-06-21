@@ -7,3 +7,9 @@ There are many types of testing and soon you'll be overwhelmed by the terminolog
 - **unit testing**
 - **integration testing**
 - **UI testing**
+
+## mock 实例属性
+
+```js
+jest.spyOn(obj, 'property', 'get').mockReturnValue('mockedValue');
+```
