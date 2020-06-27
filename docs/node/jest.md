@@ -12,4 +12,7 @@ There are many types of testing and soon you'll be overwhelmed by the terminolog
 
 ```js
 jest.spyOn(obj, 'property', 'get').mockReturnValue('mockedValue');
+ Object.defineProperty(store, 'doOneThing', {value: jest.fn()})
 ```
+
+## testEnviroment
