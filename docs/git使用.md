@@ -128,3 +128,132 @@ info/
 objects/
 refs/
 ```
+
+
+## [submodule](https://juejin.im/post/5ca47a84e51d4565372e46e0)
+git submodule add https://github.com/chaconinc/someSubmodule  src/submodulePath
+
+## 干掉所有的commit
+
+git update-ref -d HEAD
+
+## [丢弃本地修改所有文件](https://blog.csdn.net/leedaning/article/details/51304690)
+
+```
+git checkout . #本地所有修改的。没有的提交的，都返回到原来的状态
+git stash #把所有没有提交的修改暂存到stash里面。可用git stash pop回复。
+git reset --hard HASH #返回到某个节点，不保留修改。
+git reset --soft HASH #返回到某个节点。保留修改
+
+git clean -df #返回到某个节点
+git clean 参数
+    -n 显示 将要 删除的 文件 和  目录
+    -f 删除 文件
+    -df 删除 文件 和 目录
+
+
+也可以使用
+
+git checkout . && git clean -xdf
+```
+
+## [The “fatal: refusing to merge unrelated histories” Git error](https://www.educative.io/edpresso/the-fatal-refusing-to-merge-unrelated-histories-git-error#:~:text=The%20%E2%80%9Cfatal%3A%20refusing%20to%20merge%20unrelated%20histories%E2%80%9D%20Git%20error,and%20have%20mismatching%20commit%20histories).)
+
+出现原因: 本地.git文件和远程不同步
+
+解决方法：
+可以直接合并
+git pull origin master --allow-unrelated-histories
+
+重新拉取
+```
+git update-ref -d HEAD
+git checkout .
+git pull
+```
+
+
+
+# [Git error - Fatal: Refusing to merge unrelated histories](https://www.datree.io/resources/git-error-fatal-refusing-to-merge-unrelated-histories)
+
+## The "fatal: refusing to merge unrelated histories" error
+
+
+
+It is worth pointing out a little bit about how Git works and specifically and how it tracks each repository’s individual history. When a $git init command is executed to [create a new Git repository](https://git-scm.com/docs/git-init), Git will create a directory with the extension .git. 
+
+The .git directory is where, among other things, the changes or “commits” will be tracked - the history of the repo. Rewriting a repository history is possible, but it is a not a common use case, because Git’s whole reason for existing, [some might argue](https://git-scm.com/book/en/v2/Getting-Started-A-Short-History-of-Git), is to control the different versions of a file - put another way - track the file’s history. This is what is commonly referred to as “version control” and git is what enables it. When a user action (like git merge) can cause rewriting of the history data, Git throws errors in part to ensure the user fully understands what they are doing.
+
+In short, the solution is to use the flag --allow-unrelated-histories. If the error occurred while using $git pull then this is an example:
+
+$ git pull origin [repo]
+fatal: refusing to merge unrelated histories
+
+‍
+
+
+
+
+
+Then the solution is this:
+
+$ git pull origin [repo] --allow-unrelated-histories
+
+‍
+
+
+
+
+
+## Which Git commands are causing this error?
+
+‍
+
+In the example, the error occurs during a git pull. 
+
+$ git pull origin [repo] 
+fatal: refusing to merge unrelated histories
+
+
+
+
+
+It is worth remembering that a git pull is a combination of two other commands: git fetch and git merge. So, when asking Git to pull the repo, more specifically, the user is asking Git to do several tasks: 
+
+- Find and download commits from the repo on the remote (fetch)
+- Compare the remote to the local (merge) 
+- Update the code based on the most recent changes (merge)
+- Report back to the user (fetch or merge)
+
+If the remote repository’s .git directory already has changes tracked (commits have been added) by another user through an unnoticed branch, Git will throw the error fatal: refusing to merge unrelated histories because it is noticing that difference between the local and remote .git directories with a git pull command.
+
+
+
+## Which scenario can cause this error?
+
+
+
+When configuring a local repository to a different remote repository. This (wrong) configuration can mistakenly happen when creating a repository in remote and locally with the same name.
+
+For example, when using GitHub’s interface (GUI) to [create a new repository](https://help.github.com/en/articles/create-a-repo) and initialize the repository with a file / adding a file later (via the GitHub’s GUI). If a user were to work with the command line locally, run $ git init and create a repository with the same name, now there are two different repositories (one local and one on remote), with the same name.
+
+So, when trying to push commits to the remote (on GitHub), the user will encounter the **refusing to merge unrelated histories** error. Although the repositories have the same name, Git “sees” them as two different repositories because they have two different change trees, with no common ancestor to calculate the differences between them. It is recommended to use $ git clone to copy the new repository locally after creating it on GitHub to avoid any inconsistency.
+
+‍
+
+## Why use a flag?
+
+
+
+Using the flag --allow-unrelated-histories does seem like an easy enough solution, but it is worth reminding to use caution. You have to dig around on the internet to figure this out, It is a flag and not a default option - for a reason. If two repos did not have related histories and you did not actually intend to combine them, using this option unnecessarily could inadvertently add substantial complications to an existing repo. Allowing unrelated histories can cause more headaches than it is worth. 
+
+If you are uninitiated to working in large repos and the complexities of merging, or the many options that exist, feel the Twitter woes of “[merge hell](https://twitter.com/hashtag/mergehell?src=hash)”.
+
+
+
+## When you should merge two unrelated histories?
+
+
+Maybe you are working on two different but related git repositories and then came to understand that working on two different git repositories will lead to duplication of work and may complicate automation process (e.g. CI/CD).
+
+If you want to combine two separate (but related) project repositories that should be in one repository, but they have unrelated histories, it is a legit use case to use the --allow-unrelated-histories to “overcome” the “fatal: refusing to merge unrelated histories error message”.

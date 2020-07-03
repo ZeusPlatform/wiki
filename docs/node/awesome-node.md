@@ -79,3 +79,126 @@ const prompts = require('prompts');
 ### [npm-check-updates](https://www.npmjs.com/package/npm-check-updates)
 检查更新npm库
 
+### 读写json文件
+```js
+// const writeJsonFile = require('write-json-file');
+
+// (async () => {
+//   await writeJsonFile('foo.json', { foo: true, a: 1 })
+// })()
+
+const loadJsonFile = require('load-json-file');
+
+(async () => {
+  console.log(await loadJsonFile('foo.json'))
+  //= > {foo: true}
+})()
+
+```
+
+### knex
+```js
+const knex = require('knex')({
+  client: 'sqlite3',
+  connection: {
+    filename: ''
+  }
+})
+
+// let a
+// const s = knex.schema.createTable('table', table => {
+//   table.increments('id')
+//   table.string('create_time')
+//   table.string('editor')
+//   table.json('json')
+//   table.string('online_time')
+//   table.string('update_time')
+// })
+// const s = knex.select('*').from('users')
+//   .where(knex.raw('id = ?', [1]))
+//   .toSQL().toNative()
+
+// let a = knex({ a: 'table', b: 'table' })
+//   .select({
+//     aTitle: 'a.title',
+//     bTitle: 'b.title'
+//   })
+//   .whereRaw('?? = ??', ['a.column_1', 'b.column_2'])
+
+knex.schema.createTable('users', function (table) {
+  table.increments()
+  table.string('name')
+  table.timestamp('updateTime')
+}).then(() => {
+  knex('users').insert({ name: 'hello' }).then(() => {
+    knex('users').select().then(console.log)
+  })
+})
+setTimeout(() => {
+  knex('users').update({ name: 'good' }).where({ id: 1 }).then(() => {
+    knex('users').select().then(console.log)
+  })
+}, 5000)
+
+// a = knex.schema.createTable('json', table => {
+//   table.increments('id')
+//   table.string('create_time')
+//   table.string('editor')
+//   table.json('json')
+// })
+// a = knex.schema
+//   .dropTable('products')
+
+// console.log(a.toString())
+
+```
+
+### sequelize
+```js
+const Sequelize = require('sequelize')
+
+const sequelize = new Sequelize({
+  dialect: 'sqlite',
+  storage: ''
+})
+
+sequelize.authenticate().then(() => {
+  console.log('Connection has been established successfully.')
+})
+  .catch(err => {
+    console.error('Unable to connect to the database:', err)
+  })
+const Model = Sequelize.Model
+
+// 根据 model自动创建表
+sequelize
+  .sync({ force: true })
+  .then(() => {
+    class Company extends Model {}
+    Company.init({
+      // 属性
+      Name: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      Version: {
+        type: Sequelize.NUMBER
+        // allowNull 默认为 true
+      }
+    }, {
+      sequelize,
+      modelName: 'Company',
+      tableName: 'Company'
+      // 参数
+    })
+    Company.sync()
+    Company.create({ Name: 'helo', Version: 2 }).then(console.log)
+
+    console.log('init db ok')
+  })
+  .catch(err => {
+    console.log('init db error', err)
+  })
+
+
+```
