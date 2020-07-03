@@ -178,3 +178,9 @@ tsconfig 会搜搜索所在目录的所有文件,所有的类型文件,如果你
 
 ## 条件返回类型
 
+## typescript 中的 & 和 |
+& 数学上表示元素的交集，typescript中也是一样的，ts表示的是类型的加法，规则变多了，所以集合缩小了
+| 数学上表示元素的并集，typescript中也是一样的，ts表示的是类型的减法，规则变少了，所以集合扩大了
+
+type Y = keyof never 
+// string | number | symbol

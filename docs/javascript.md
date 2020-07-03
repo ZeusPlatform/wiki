@@ -102,3 +102,4 @@ var jsonString = '{"some":"json"}';
 var jsonPretty = JSON.stringify(JSON.parse(jsonString),null,2);  
 ```
 
+### js构造函数无法被修改
