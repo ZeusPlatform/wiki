@@ -78,3 +78,4 @@ export default {
   loadingIndicator: '@/components/loading.vue'
 }
 ```
+
