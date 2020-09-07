@@ -1,4 +1,4 @@
-# 如何处理浏览器的断网情况？
+# 如何处理浏览器的断网情况
 
 **好的断网处理会让人很舒适：lol的断线重连，王者荣耀的断线重连 可以确保游戏的继续进行**
 
@@ -74,7 +74,7 @@ online状态下运行`console.log(navigator.connection);`
 
 通过navigator.connection可以判断出online，fast 3g，slow 3g，和offline，这四种状态下的effectiveType分别为4g，3g，2g，4g（rtt，downlink均为0）。
 
-#### rtt和downlink是什么？NetworkInformation是什么？
+#### rtt和downlink是什么？NetworkInformation是什么
 
 这是两个反映网络状况的参数，比type更加具象且更能反映当前网络的真实情况。
 
@@ -110,7 +110,7 @@ online状态下运行`console.log(navigator.connection);`
 
 无论是rtt，还是downlink，都是这个草案中的内容。 除此之外还有downlinkMax，saveData，type等属性。 更多资料可以查询：[NetworkInformation](https://developer.mozilla.org/en-US/docs/Web/API/NetworkInformation)
 
-#### 如何检测网络变化去做出响应呢？
+#### 如何检测网络变化去做出响应呢
 
 NetworkInformation继承自EventTarget，可以通过监听change事件去做一些响应。
 
@@ -153,17 +153,9 @@ connection.addEventListener('change', updateConnectionStatus);
 
 #### 例子
 
-
-
-
 ![20200713002614](https://raw.githubusercontent.com/jiangbo0216/wiki/pic-bed/20200713002614.png)
 
-
-
-
 ![20200713002626](https://raw.githubusercontent.com/jiangbo0216/wiki/pic-bed/20200713002626.png)
-
-
 
 ```
 <div id="status"></div>
@@ -316,3 +308,28 @@ export default {
 - [developer.mozilla.org/en-US/docs/…](https://developer.mozilla.org/en-US/docs/Web/API/Network_Information_API)
 - [developer.mozilla.org/en-US/docs/…](https://developer.mozilla.org/en-US/docs/Web/API/NetworkInformation/rtt)
 - [developer.mozilla.org/en-US/docs/…](https://developer.mozilla.org/en-US/docs/Web/API/NetworkInformation/downlink)
+
+## vue mixin
+
+混入
+
+```js
+// 定义一个混入对象
+var myMixin = {
+  created: function () {
+    this.hello()
+  },
+  methods: {
+    hello: function () {
+      console.log('hello from mixin!')
+    }
+  }
+}
+
+// 定义一个使用混入对象的组件
+var Component = Vue.extend({
+  mixins: [myMixin]
+})
+
+var component = new Component() // => "hello from mixin!"
+```
