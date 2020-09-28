@@ -209,7 +209,7 @@ main3();
 main 函数改成 async，catch 去捕获 fetchFailure reject 抛出的错误。能不能获取到呢。
 
 ```
-const fetchFailure = () => new Promise((resolve, reject) => {
+var fetchFailure = () => new Promise((resolve, reject) => {
   setTimeout(() => {// 模拟请求
     if(1) reject('fetch failure...');
   })
@@ -217,13 +217,18 @@ const fetchFailure = () => new Promise((resolve, reject) => {
 
 async function main () {
   try {
-    const res = await fetchFailure();
+    const res = await fetchFailure().catch(e => {
+      console.error(e)
+      throw new Error('ffffffffffffff')
+    });
     console.log(res, 'res');
   } catch(e) {
     console.log(e, 'e.message');
   }
 }
-main();
+main().catch(e => {
+  console.error('222222222222222222')
+});
 
 ```
 

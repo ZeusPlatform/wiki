@@ -43,6 +43,11 @@ error
 1. Add a layouts/error.vue file
 2. Customize it
 
+## 跳转到错误页面
+
+对于客户端渲染场景在plugin中调用context.error({message:'',statusCode: ''}), 无效，解决办法为, 插件中赋值context.errorMessage
+window.onNuxtReady((nuxt) => {nuxt.error({message:'',statusCode: ''})}), 这里判断 nuxt.context.errorMessage，如果存在就展示错误页面
+
 ## nuxt vuex 单页面开发，切换页面的时候注意，数据的重置
 
 ## 配置开发的host
@@ -79,3 +84,21 @@ export default {
 }
 ```
 
+## 使用布局
+
+```js
+export default {
+  layout: "common"
+}
+```
+
+## [nuxt Component](https://nuxtjs.org/api/components-nuxt)
+
+This component is used only in layouts to display the page components.
+
+## [eslint rules](https://eslint.vuejs.org/rules/singleline-html-element-content-newline.html)
+
+## [禁用 singleline-html-element-content-newline](https://stackoverflow.com/questions/54603407/how-do-i-turn-off-this-eslint-error-expected-new-line-break-before-and-after-ht)
+
+'vue/singleline-html-element-content-newline': 'off',
+'vue/multiline-html-element-content-newline': 'off',
