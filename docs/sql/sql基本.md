@@ -212,3 +212,4 @@ WHERE 学号=0001 AND 课程号=001 AND 成绩>80;
 ![20200818155056](https://raw.githubusercontent.com/jiangbo0216/wiki/pic-bed/20200818155056.png)
 
 ![20200818155106](https://raw.githubusercontent.com/jiangbo0216/wiki/pic-bed/20200818155106.png)
+
