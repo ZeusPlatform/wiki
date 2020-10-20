@@ -1,125 +1,10 @@
-## sql语句分类
-
-SQL语句可以分为以下四类：数据操作语言(DML)、数据定义语言(DDL)、事务控制语言(TCL)。
-
-- [Data Definition Language (DDL) Statements](https://docs.oracle.com/cd/B19306_01/server.102/b14200/statements_1001.htm#i2099120)
-- [Data Manipulation Language (DML) Statements](https://docs.oracle.com/cd/B19306_01/server.102/b14200/statements_1001.htm#i2099257)
-- [Transaction Control Statements](https://docs.oracle.com/cd/B19306_01/server.102/b14200/statements_1001.htm#i2099286)
-- [Session Control Statements](https://docs.oracle.com/cd/B19306_01/server.102/b14200/statements_1001.htm#i2099318)
-- [System Control Statement](https://docs.oracle.com/cd/B19306_01/server.102/b14200/statements_1001.htm#i2099335)
-- [Embedded SQL Statements](https://docs.oracle.com/cd/B19306_01/server.102/b14200/statements_1001.htm#i2099350)
-
-
-
-- 数据操作语言(DML：Data Manipulation Language)
-
-  由数据库管理系统(DBMS) 提供，用于让用户或程序员使用，实现对数据库中数据的操作。
-
-  * CALL
-  * DELETE
-  * EXPLAIN PLAN
-  * INSERT
-  * LOCK TABLE
-  * MERGE
-  * SELECT
-  * UPDATE
-
-- 数据定义语言(DDL：Data Definition Language)
-
-  用于定义SQL模式、基本表、视图和索引的创建和撤消操作。
-
-  * ALTER ... (All statements beginning with ALTER)
-  * ANALYZE
-  * ASSOCIATE STATISTICS
-  * AUDIT
-  * COMMENT
-  * CREATE ... (All statements beginning with CREATE)
-  * DISASSOCIATE STATISTICS
-  * DROP ... (All statements beginning with DROP)
-  * FLASHBACK ... (All statements beginning with FLASHBACK)
-  * GRANT
-  * NOAUDIT
-  * PURGE
-  * RENAME
-  * REVOKE
-  * TRUNCATE
-
-- 事务控制语言(TCL：Transaction Control Language)
-
-  用于数据库的事务管理。
-
-  * COMMIT
-  * ROLLBACK
-  * SAVEPOINT
-  * SET TRANSACTION
-
-以上信息主要参考Oracle官方文档，和某些站点上的定义可能略有不同。 例如：在某些站点的介绍中，SELECT并不属于DDL，而是将其归为一个特别的语言类——数据查询语言(DQL：Data Query Language)。 想要了解Oracle SQL语句分类的更多信息，你可以参考Oracle官方文档<https://docs.oracle.com/cd/B19306_01/server.102/b14200/statements_1001.htm>
-
-## DDL语言
-
-### 数据库管理
-
-一、创建库
-create database 【if not exists】 库名【 character set 字符集名】;
-
-二、修改库
-alter database 库名 character set 字符集名;
-三、删除库
-drop database 【if exists】 库名;
-
-
-
-### 表管理
-
-一、创建表 ★
-create table 【if not exists】 表名(
-	字段名 字段类型 【约束】,
-	字段名 字段类型 【约束】,
-	。。。
-	字段名 字段类型 【约束】 
-
-)
-
-二、修改表
-
-1.添加列	
-alter table 表名 add column 列名 类型 【first|after 字段名】;
-2.修改列的类型或约束
-alter table 表名 modify column 列名 新类型 【新约束】;
-3.修改列名
-alter table 表名 change column 旧列名 新列名 类型;
-4 .删除列
-alter table 表名 drop column 列名;
-5.修改表名
-alter table 表名 rename 【to】 新表名;
-
-三、删除表
-drop table【if exists】 表名;
-
-四、复制表
-1、复制表的结构
-create table 表名 like 旧表	;
-2、复制表的结构+数据
-create table 表名 
-select 查询列表 from 旧表【where 筛选】;
-
-
-
-
-
-分析sql执行计划
-
-https://www.sqlite.org/eqp.html
-
-
-
 # [SQL语法：DDL，DQL，DCL](https://segmentfault.com/a/1190000023499662)
 
 [sql](https://segmentfault.com/t/sql)
 
 发布于 8月4日
 
-#### SQL语法：
+#### SQL语法
 
 通用语法：
 
@@ -196,13 +81,13 @@ https://www.sqlite.org/eqp.html
                     * score double(5,2)
                 3. date:日期，只包含年月日，yyyy-MM-dd
                 4. datetime:日期，包含年月日时分秒     yyyy-MM-dd HH:mm:ss
-                5. timestamp:时间错类型    包含年月日时分秒     yyyy-MM-dd HH:mm:ss    
+                5. timestamp:时间错类型    包含年月日时分秒     yyyy-MM-dd HH:mm:ss
                     * 如果将来不给这个字段赋值，或赋值为null，则默认使用当前的系统时间，来自动赋值
 
                 6. varchar：字符串
                     * name varchar(20):姓名最大20个字符
                     * zhangsan 8个字符  张三 2个字符
-            
+
 
         * 创建表
             create table student(
@@ -214,7 +99,7 @@ https://www.sqlite.org/eqp.html
                 insert_time timestamp
             );
         * 复制表：
-            * create table 表名 like 被复制的表名;          
+            * create table 表名 like 被复制的表名;
     2. R(Retrieve)：查询
         * 查询某个数据库中所有的表名称
             * show tables;
@@ -300,51 +185,51 @@ https://www.sqlite.org/eqp.html
             * 如果该字段为null后的替换值。
     4. 起别名：
         * as：as也可以省略
-        
+
 
 3. 条件查询
     1. where子句后跟条件
     2. 运算符
         * > 、< 、<= 、>= 、= 、<>
         * BETWEEN...AND  
-        * IN( 集合) 
+        * IN( 集合)
         * LIKE：模糊查询
             * 占位符：
                 * _:单个任意字符
                 * %：多个任意字符
         * IS NULL  
         * and  或 &&
-        * or  或 || 
+        * or  或 ||
         * not  或 !
-        
+
             -- 查询年龄大于20岁
 
             SELECT * FROM student WHERE age > 20;
-            
+
             SELECT * FROM student WHERE age >= 20;
-            
+
             -- 查询年龄等于20岁
             SELECT * FROM student WHERE age = 20;
-            
+
             -- 查询年龄不等于20岁
             SELECT * FROM student WHERE age != 20;
             SELECT * FROM student WHERE age <> 20;
-            
+
             -- 查询年龄大于等于20 小于等于30
-            
+
             SELECT * FROM student WHERE age >= 20 &&  age <=30;
             SELECT * FROM student WHERE age >= 20 AND  age <=30;
             SELECT * FROM student WHERE age BETWEEN 20 AND 30;
-            
+
             -- 查询年龄22岁，18岁，25岁的信息
             SELECT * FROM student WHERE age = 22 OR age = 18 OR age = 25
             SELECT * FROM student WHERE age IN (22,18,25);
-            
+
             -- 查询英语成绩为null
             SELECT * FROM student WHERE english = NULL; -- 不对的。null值不能使用 = （!=） 判断
-            
+
             SELECT * FROM student WHERE english IS NULL;
-            
+
             -- 查询英语成绩不为null
             SELECT * FROM student WHERE english  IS NOT NULL;
 
@@ -353,15 +238,13 @@ https://www.sqlite.org/eqp.html
             -- 查询姓马的有哪些？ like
             SELECT * FROM student WHERE NAME LIKE '马%';
             -- 查询姓名第二个字是化的人
-            
+
             SELECT * FROM student WHERE NAME LIKE "_化%";
-            
+
             -- 查询姓名是3个字的人
             SELECT * FROM student WHERE NAME LIKE '___';
-            
-            
+
+
             -- 查询姓名中包含德的人
             SELECT * FROM student WHERE NAME LIKE '%德%';
 ```
-
-## 比较时间大小 datetime 函数
