@@ -6,6 +6,5 @@ $$
 \beta
 \gamma
 \delta
-
 $$
 |||
