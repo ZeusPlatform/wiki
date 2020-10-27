@@ -102,3 +102,44 @@ This component is used only in layouts to display the page components.
 
 'vue/singleline-html-element-content-newline': 'off',
 'vue/multiline-html-element-content-newline': 'off',
+
+## extend动态创建组件时, 如果注册方法在plugin中inject了的话会出现问题
+
+TypeError: Cannot set property $m of #<Vue> which has only a getter
+
+```js
+  const BaseConstructor = Vue.extend({
+    methods: {
+      $m: m
+    }
+  })
+  const VueContructor = BaseConstructor.extend(VueCom)
+  instance = new VueContructor({
+    el: document.createElement('div'),
+    propsData: options.props
+  })
+
+  // 使用mixin, 直接复制也会失败
+  Vue.prototype.$m = m
+  Vue.mixin({
+    methods: {
+      $m: m
+    }
+  })
+```
+
+原因:
+
+```js
+    // Call Vue.use() to install the plugin into vm
+    Vue.use(() => {
+      if (!Object.prototype.hasOwnProperty.call(Vue.prototype, key)) {
+        Object.defineProperty(Vue.prototype, key, {
+          get () {
+            return this.$root.$options[key]
+          }
+        })
+      }
+    })
+
+```
