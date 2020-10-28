@@ -2,7 +2,7 @@
 | ----------- |
 | scoop的使用 |
 
-https://github.com/zhepama/igiven.github.io/blob/fced90359a7899c38e8b426ea114074dc88b8108/_posts/tool/2019-08-20-scoop-use.md
+<https://github.com/zhepama/igiven.github.io/blob/fced90359a7899c38e8b426ea114074dc88b8108/_posts/tool/2019-08-20-scoop-use.md>
 
 # 安装scoop前提
 
@@ -164,10 +164,12 @@ scoop config rm proxy
 ###安装全局应用
 scoop install apache -g;
 scoop install redis -g;
+# redis客户端
+scoop install redis-desktop-manager
 scoop install mysql -g;
 scoop install nodejs -g;
 # jdk最好使用8,否则android-sdk会有问题
-scoop install ojdkbuild8 -g; 
+scoop install ojdkbuild8 -g;
 scoop install php -g;
 #整合apache php
 iex (new-object net.webclient).downloadstring('https://gist.githubusercontent.com/nilkesede/c98a275b80b6d373131df82eaba96c63/raw/apache-php-init.ps1')
@@ -205,7 +207,7 @@ scoop install imageglass
 #quick look
 scoop install quicklook
 #sharex
-scoop install sharex 
+scoop install sharex
 #obs  录制视频或者直播
 scoop install obs-studio
 #switchhosts
@@ -216,7 +218,7 @@ scoop install android-sdk
 # sdkmanager ndk-bundle
 # shadowsocksr-csharp
 scoop install shadowsocksr-csharp
-# picpick 
+# picpick
 scoop install picpick
 #xmind8
 scoop install xmind8
@@ -235,17 +237,17 @@ scoop install pwsh
 #网易云音乐
 scoop install neteasemusic
 # ftp工具
-scoop install filezilla 
+scoop install filezilla
 # pdf阅读工具
  scoop install foxit-reader
 # 播放器
-scoop install potplayer 
+scoop install potplayer
 # draw工程图,uml工具
 scoop install draw.io
 # 定时提醒休息工具
 scoop install workrave
 # 投屏工具
-scoop install scrcpy 
+scoop install scrcpy
 # 卸载工具
 scoop install geekuninstaller
 #浏览器
@@ -260,7 +262,7 @@ scoop install windows-terminal
 # 反编译 ilspy  https://github.com/sailro/Reflexil下载Reflexil将Reflexil.ILSpy.Plugin.dll直接扔到ilspy目录下即行
 scoop install ilspy
 #win+x菜单编辑
-scoop install WinXMenuEditor   
+scoop install WinXMenuEditor
 #发送到菜单编辑
 scoop install SendToMenuEditor
 # 上下文菜单
@@ -307,7 +309,7 @@ mysqld --install MySQL --defaults-file="D:\Application\ScoopGlobal\apps\mysql\cu
 注意mysql8密码可能认证有错误my.ini中需要设置
 
 ```
-default_authentication_plugin=mysql_native_password 
+default_authentication_plugin=mysql_native_password
 ```
 
 # pwsh
@@ -357,11 +359,7 @@ $1
 
 注意正则式中包含空格，请完整复制。
 
-
-
 ## backup
-
-
 
 ```
 scoop bucket add knox-scoop https://git.irs.sh/KNOXDEV/knox-scoop
@@ -373,4 +371,3 @@ scoop-backup .\path\to\folder\
 scoop-backup --compress
 # >> "output-folder\backup.bat"
 ```
-
