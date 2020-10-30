@@ -2,6 +2,9 @@ language: python # Set the build language to Python
 
 # cache: pip
 
+git:
+    lfs_skip_smudge: true
+
 python: 3.6 # Set the version of Python to use
 
 branches: master # Set the branch to build from
