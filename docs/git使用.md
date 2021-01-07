@@ -1,9 +1,19 @@
+## 放弃本地修改, 强制拉取更新
+
+```shell
+git fetch --all
+git reset --hard origin/master
+git pull //可以省略
+```
+
 ## remote
+
 git remote -h
 
-
 ## 获取帮助
-参考： https://git-scm.com/book/en/v2/Getting-Started-Getting-Help
+
+参考： <https://git-scm.com/book/en/v2/Getting-Started-Getting-Help>
+
 ```
 $ git help <verb>
 $ git <verb> --help
@@ -12,43 +22,49 @@ git add -h
 ```
 
 ## tag
+
 ### 删除tag
+
 `git tag -d <tag-naem>`
 
 ## 修改已commit的版本
+
 `git add <file-name | .>`
 `git commit --amend --no-edit`
 每个commit内容显示在一行
 git log --oneline
 
-## 之前是使用https clone下来的项目改成ssh 设置git源地址, 修改origin	
+## 之前是使用https clone下来的项目改成ssh 设置git源地址, 修改origin
+
 修改 ./git 目录下的 config文件
 cd .git && vim config
 修改其中url 为 git@XXXX
 
-使用命令行 
+使用命令行
 git remote set-url origin git@github.com:AccountName/Project-name.git
 
 ## 添加与提交
+
 git add < filename >
 git add *
 
 git commit -m "代码提交信息"
 
 ## 推送
+
 在 .git/config 声明 remote，使用git-remote或者git-config或者手动修改，使用git push 的时候没有指定remote，如果省略将会默认使用配置文件中的remote
 > [Named remote in configuration file
 You can choose to provide the name of a remote which you had previously configured using git-remote[1], git-config[1] or even by a manual edit to the $GIT_DIR/config file. The URL of this remote will be used to access the repository. The refspec of this remote will be used by default when you do not provide a refspec on the command line. The entry in the config file would appear like this:](https://www.git-scm.com/docs/git-push#REMOTES)
 
-	[remote "<name>"]
-		url = <url>
-		pushurl = <pushurl>
-		push = <refspec>
-		fetch = <refspec>
+ [remote "<name>"]
+  url = <url>
+  pushurl = <pushurl>
+  push = <refspec>
+  fetch = <refspec>
+
 ```
 The <pushurl> is used for pushes only. It is optional and defaults to <url>.
 ```
-
 
 git push origin master
 
@@ -58,6 +74,7 @@ git remote add origin < server >
 如果你还没有 git 仓库，可以在 GitHub 等代码托管平台上创建一个空（不要自动生成 README.md）的 repository，然后将代码 push 到远端仓库。
 
 ## 新建一个空白分支
+
 git checkout --orphan gh-pages
 
 git rm -rf .
@@ -67,6 +84,7 @@ git rm -rf .
 在commit 一次之后即可 使用 git branch -a 查看到分支
 
 ## git merge & rebase
+
 ```sh
 $ git checkout feature
 $ git merge master
@@ -77,11 +95,12 @@ $ git merge master feature
 ```
 
 ### merge
+
 Incorporates changes from the named commits (since the time their histories diverged from the current branch) into the current branch. This command is used by git pull to incorporate changes from another repository and can be used by hand to merge changes from one branch into another.
 从给定的commit合并到当前的分支，合并的是给定commit的与当前分支分叉后两条历史记录产生的所有commits。这条命令在git pull 的时候也会被使用
 
-
 ## pull
+
 Fetch from and integrate with another repository or a local branch
 相当于 fetch & merge
 
@@ -94,30 +113,33 @@ This leaves a copy of next temporarily in FETCH_HEAD, but does not update any re
 $ git fetch origin
 $ git merge origin/next
 
-
 ## fetch
+
 git-fetch - Download objects and refs from another repository
 
-
 ## git internals
+
 ### .git目录结构
+
 ```
 $ ls -F1
 COMMIT_EDITMSG
-config     
+config
 description
-FETCH_HEAD 
-HEAD       
-hooks/     
-index      
-info/      
+FETCH_HEAD
+HEAD
+hooks/
+index
+info/
 logs/
 objects/
 ORIG_HEAD
 packed-refs
 refs/
 ```
+
 一个初始化的 .git 目录
+
 ```
 $ ls -F1
 config
@@ -129,9 +151,9 @@ objects/
 refs/
 ```
 
-
 ## [submodule](https://juejin.im/post/5ca47a84e51d4565372e46e0)
-git submodule add https://github.com/chaconinc/someSubmodule  src/submodulePath
+
+git submodule add <https://github.com/chaconinc/someSubmodule>  src/submodulePath
 
 ## 干掉所有的commit
 
@@ -166,21 +188,18 @@ git checkout . && git clean -xdf
 git pull origin master --allow-unrelated-histories
 
 重新拉取
+
 ```
 git update-ref -d HEAD
 git checkout .
 git pull
 ```
 
-
-
 # [Git error - Fatal: Refusing to merge unrelated histories](https://www.datree.io/resources/git-error-fatal-refusing-to-merge-unrelated-histories)
 
 ## The "fatal: refusing to merge unrelated histories" error
 
-
-
-It is worth pointing out a little bit about how Git works and specifically and how it tracks each repository’s individual history. When a $git init command is executed to [create a new Git repository](https://git-scm.com/docs/git-init), Git will create a directory with the extension .git. 
+It is worth pointing out a little bit about how Git works and specifically and how it tracks each repository’s individual history. When a $git init command is executed to [create a new Git repository](https://git-scm.com/docs/git-init), Git will create a directory with the extension .git.
 
 The .git directory is where, among other things, the changes or “commits” will be tracked - the history of the repo. Rewriting a repository history is possible, but it is a not a common use case, because Git’s whole reason for existing, [some might argue](https://git-scm.com/book/en/v2/Getting-Started-A-Short-History-of-Git), is to control the different versions of a file - put another way - track the file’s history. This is what is commonly referred to as “version control” and git is what enables it. When a user action (like git merge) can cause rewriting of the history data, Git throws errors in part to ensure the user fully understands what they are doing.
 
@@ -191,47 +210,31 @@ fatal: refusing to merge unrelated histories
 
 ‍
 
-
-
-
-
 Then the solution is this:
 
 $ git pull origin [repo] --allow-unrelated-histories
 
 ‍
 
-
-
-
-
-## Which Git commands are causing this error?
+## Which Git commands are causing this error
 
 ‍
 
-In the example, the error occurs during a git pull. 
+In the example, the error occurs during a git pull.
 
-$ git pull origin [repo] 
+$ git pull origin [repo]
 fatal: refusing to merge unrelated histories
 
-
-
-
-
-It is worth remembering that a git pull is a combination of two other commands: git fetch and git merge. So, when asking Git to pull the repo, more specifically, the user is asking Git to do several tasks: 
+It is worth remembering that a git pull is a combination of two other commands: git fetch and git merge. So, when asking Git to pull the repo, more specifically, the user is asking Git to do several tasks:
 
 - Find and download commits from the repo on the remote (fetch)
-- Compare the remote to the local (merge) 
+- Compare the remote to the local (merge)
 - Update the code based on the most recent changes (merge)
 - Report back to the user (fetch or merge)
 
 If the remote repository’s .git directory already has changes tracked (commits have been added) by another user through an unnoticed branch, Git will throw the error fatal: refusing to merge unrelated histories because it is noticing that difference between the local and remote .git directories with a git pull command.
 
-
-
-## Which scenario can cause this error?
-
-
+## Which scenario can cause this error
 
 When configuring a local repository to a different remote repository. This (wrong) configuration can mistakenly happen when creating a repository in remote and locally with the same name.
 
@@ -241,18 +244,13 @@ So, when trying to push commits to the remote (on GitHub), the user will encount
 
 ‍
 
-## Why use a flag?
+## Why use a flag
 
-
-
-Using the flag --allow-unrelated-histories does seem like an easy enough solution, but it is worth reminding to use caution. You have to dig around on the internet to figure this out, It is a flag and not a default option - for a reason. If two repos did not have related histories and you did not actually intend to combine them, using this option unnecessarily could inadvertently add substantial complications to an existing repo. Allowing unrelated histories can cause more headaches than it is worth. 
+Using the flag --allow-unrelated-histories does seem like an easy enough solution, but it is worth reminding to use caution. You have to dig around on the internet to figure this out, It is a flag and not a default option - for a reason. If two repos did not have related histories and you did not actually intend to combine them, using this option unnecessarily could inadvertently add substantial complications to an existing repo. Allowing unrelated histories can cause more headaches than it is worth.
 
 If you are uninitiated to working in large repos and the complexities of merging, or the many options that exist, feel the Twitter woes of “[merge hell](https://twitter.com/hashtag/mergehell?src=hash)”.
 
-
-
-## When you should merge two unrelated histories?
-
+## When you should merge two unrelated histories
 
 Maybe you are working on two different but related git repositories and then came to understand that working on two different git repositories will lead to duplication of work and may complicate automation process (e.g. CI/CD).
 

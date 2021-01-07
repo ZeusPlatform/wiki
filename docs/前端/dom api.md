@@ -1,4 +1,4 @@
-# 搞清clientHeight、offsetHeight、scrollHeight、offsetTop、scrollTop
+# 搞清clientHeight、offsetHeight、**scrollHeight**、offsetTop、scrollTop
 
 ![20200324212442.png](https://raw.githubusercontent.com/jiangbo0216/wiki/pic-bed/20200324212442.png)
 

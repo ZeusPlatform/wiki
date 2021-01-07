@@ -192,3 +192,8 @@ type Y = keyof never
 // string | number | symbol
 
 ## pick omit
+
+## 提取对象的属性名称和属性对应的类型
+
+Pick<RecordTemplate, keyof RecordTemplate>
+
