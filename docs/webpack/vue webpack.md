@@ -3,7 +3,7 @@
 ```js
 {
   mode: 'development',
-  context: '/home/jiangbo/gitlab.xunlei/search_v6',
+  context: '/home/xxxx',
   devtool: 'source-map',
   node: {
     setImmediate: false,
@@ -15,14 +15,14 @@
     child_process: 'empty'
   },
   output: {
-    path: '/home/jiangbo/gitlab.xunlei/search_v6/dist',
+    path: '/home/xxxx/dist',
     filename: '[name].js',
     publicPath: '/',
     globalObject: 'this'
   },  
   resolve: {
     alias: {
-      '@': '/home/jiangbo/gitlab.xunlei/search_v6/src',
+      '@': '/home/xxxx/src',
       vue$: 'vue/dist/vue.runtime.esm.js'
     },
     extensions: [
@@ -33,17 +33,17 @@
     ],
     modules: [
       'node_modules',
-      '/home/jiangbo/gitlab.xunlei/search_v6/node_modules',
-      '/home/jiangbo/gitlab.xunlei/search_v6/node_modules/@vue/cli-service/node_modules'
+      '/home/xxxx/node_modules',
+      '/home/xxxx/node_modules/@vue/cli-service/node_modules'
     ]
   },
   resolveLoader: {
     modules: [
-      '/home/jiangbo/gitlab.xunlei/search_v6/node_modules/@vue/cli-plugin-eslint/node_modules',
-      '/home/jiangbo/gitlab.xunlei/search_v6/node_modules/@vue/cli-plugin-babel/node_modules',
+      '/home/xxxx/node_modules/@vue/cli-plugin-eslint/node_modules',
+      '/home/xxxx/node_modules/@vue/cli-plugin-babel/node_modules',
       'node_modules',
-      '/home/jiangbo/gitlab.xunlei/search_v6/node_modules',
-      '/home/jiangbo/gitlab.xunlei/search_v6/node_modules/@vue/cli-service/node_modules'
+      '/home/xxxx/node_modules',
+      '/home/xxxx/node_modules/@vue/cli-service/node_modules'
     ]
   },
   module: {
@@ -57,7 +57,7 @@
           {
             loader: 'cache-loader',
             options: {
-              cacheDirectory: '/home/jiangbo/gitlab.xunlei/search_v6/node_modules/.cache/vue-loader',
+              cacheDirectory: '/home/xxxx/node_modules/.cache/vue-loader',
               cacheIdentifier: 'caadb9f4'
             }
           },
@@ -68,7 +68,7 @@
               compilerOptions: {
                 preserveWhitespace: false
               },
-              cacheDirectory: '/home/jiangbo/gitlab.xunlei/search_v6/node_modules/.cache/vue-loader',
+              cacheDirectory: '/home/xxxx/node_modules/.cache/vue-loader',
               cacheIdentifier: 'caadb9f4'
             }
           }
@@ -1035,7 +1035,7 @@
           {
             loader: 'cache-loader',
             options: {
-              cacheDirectory: '/home/jiangbo/gitlab.xunlei/search_v6/node_modules/.cache/babel-loader',
+              cacheDirectory: '/home/xxxx/node_modules/.cache/babel-loader',
               cacheIdentifier: '84add2aa'
             }
           },
@@ -1051,7 +1051,7 @@
         test: /\.(vue|(j|t)sx?)$/,
         exclude: [
           /node_modules/,
-          '/home/jiangbo/gitlab.xunlei/search_v6/node_modules/@vue/cli-service/lib'
+          '/home/xxxx/node_modules/@vue/cli-service/lib'
         ],
         use: [
           /* config.module.rule('eslint').use('eslint-loader') */
@@ -1109,7 +1109,7 @@
     new HtmlWebpackPlugin(
       {
         templateParameters: function () { /* omitted long function */ },
-        template: '/home/jiangbo/gitlab.xunlei/search_v6/public/index.html',
+        template: '/home/xxxx/public/index.html',
         inlineSource: '(inline-source|common).+\\.js$'
       }
     ),
@@ -1138,8 +1138,8 @@
     new CopyWebpackPlugin(
       [
         {
-          from: '/home/jiangbo/gitlab.xunlei/search_v6/public',
-          to: '/home/jiangbo/gitlab.xunlei/search_v6/dist',
+          from: '/home/xxxx/public',
+          to: '/home/xxxx/dist',
           toType: 'dir',
           ignore: [
             'index.html',
@@ -1161,6 +1161,7 @@
 ```
 
 # vue.config.js 修改 webpack.config.js 配置
+
 ```js
 // 去console插件
 // const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
@@ -1227,8 +1228,6 @@ let config = {
 module.exports = config
 
 ```
-
-
 
 # webpack 相关
 

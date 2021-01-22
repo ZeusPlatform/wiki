@@ -15,10 +15,11 @@ p.then(console.log)
 ```
 
 输入命令: node test.js 1
+
 ```text
 [
-  '/home/jiangbo/.nvm/versions/node/v12.13.1/bin/node',
-  '/home/jiangbo/gitlab.xunlei/admin.sl.xunlei.com/test.js',
+  'xxx/node',
+  'xxx/test.js',
   '1'
 ]
 1
@@ -27,10 +28,11 @@ p.then(console.log)
 ```
 
 输入命令: node test.js
+
 ```text
 [
-  '/home/jiangbo/.nvm/versions/node/v12.13.1/bin/node',
-  '/home/jiangbo/gitlab.xunlei/admin.sl.xunlei.com/test.js'
+  'xxx/node',
+  'xxx/test.js'
 ]
 2
 3
